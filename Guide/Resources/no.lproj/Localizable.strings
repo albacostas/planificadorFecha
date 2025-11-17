@@ -1,0 +1,342 @@
+/* Title of Guidebook */
+"GuideBook..title" = "Planleggingskalender";
+
+/* The title of the Welcome Message for the GuideBook */
+"GuideBook..WelcomeMessageExploring the Date Planner App..title" = "Utforske Planleggingskalender-appen";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..WelcomeMessageExploring the Date Planner App..Paragraph0" = "Bruk denne appen til å organisere og planlegge en serie med hendelser organisert etter dato.";
+
+/* Title of step named Date Planner */
+"GuideBook..Guide0..StepDate Planner..title" = "Planleggingskalender";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..LearningCenterContent..Paragraph1" = "![](intro.png)\nVelkommen til appen Planleggingskalender. Bruk denne appen til å organisere og planlegge en serie med hendelser organisert etter dato.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..LearningCenterContent..Paragraph2" = "I dette eksempelet lærer du hvordan du bruker en [observerbar](glossary://observable%20object) datamodell til å opprette dynamiske lister med hendelser, og hvordan du arkiverer dataene mellom appåpninger ved hjelp av data[persistens](glossary://persistence). På tide å sette i gang!";
+
+/* title of the guide button */
+"GuideBook..Guide0..StepDate Planner..LearningCenterContent..GuideButtonStart Walkthrough..title" = "Start gjennomgangen";
+
+/* accessibility description for guide button */
+"GuideBook..Guide0..StepDate Planner..LearningCenterContent..GuideButtonStart Walkthrough..description" = "Tilgjengelighetsbeskrivelse for knapp";
+
+/* Title for the section of tasks to complete */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..title" = "Forstå datamodellen og opprette dynamiske lister";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..title" = "Konfigurering av app";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..Paragraph3" = "Opprett et enkelt dataobjekt og gjør det tilgjengelig for hele [visningshierarkiet](glossary://view%20hierarchy) for å finne ut hvordan appen deler data med visningene.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..Page0..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..Page0..Paragraph4" = "Appen lagrer dataene ved hjelp av variabelen `eventData`. `eventData` defineres med [egenskapsinnpakningen](glossary://property%20wrapper) `@StateObject` for å opprette en instans av et [observerbart objekt](glossary://observable%20object), `EventData`. Siden dette objektet er observerbart, holder SwiftUI øye med det for å registrere eventuelle endringer i verdiene. Når dataene endres, vil SwiftUI automatisk oppdatere visningene som bruker (eller [observerer](glossary://observer)) det.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..Page1..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..Page1..Paragraph5" = "Deretter overfører koden `eventData` til `EventList`-visningen. For denne appen er `EventList` den første visningen som appen viser når den startes.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..title" = "Hendelsesmodell";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Paragraph6" = "Hendelsesmodellen inneholder alle data som trengs for å visualisere og organisere hendelsene i listen din. Her utforsker du hvordan du strukturerer en `Event`.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page2..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page2..Paragraph7" = "For å organisere dataene bruker appen en samling av `Event`-objekter. Hvert av dem representerer en konkret hendelse, for eksempel en campingtur eller en fødselsdagsfest. Ved å følge [protokollen](glossary://protocol) `Identifiable` sørger du for at SwiftUI kan identifisere og oppdatere hver rad når du oppretter en liste med hendelser.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page3..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page3..Paragraph8" = "`Event`-typen inneholder all informasjon du trenger for å fylle ut en hendelse, inkludert et symbol, en farge, en tittel, en dato og en samling av hendelser. Hver oppgave er et konkret gjøremål for hendelsen, for eksempel «Kjøp en campinglykt».";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page4..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page4..Paragraph9" = "Du ser også en liste med [beregnede egenskaper](glossary://computed%20property) for `Event`. De hjelper personer med å organisere delene av listene deres basert på datoen og antall oppgaver som skal utføres.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..title" = "Hendelsesoppgave";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..Paragraph10" = "En hendelsesoppgave representerer en oppgave som skal utføres for en hendelse. Her lærer du hvordan du modellerer oppgaven.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..Page5..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..Page5..Paragraph11" = "En `EventTask` representerer ett gjøremål fra en samling av gjøremål for en hendelse. I likhet med `Event` er `EventTask` også `Identifiable`, slik at SwiftUI kan administrere og oppdatere utseendet for den i en liste.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..Page6..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..Page6..Paragraph12" = "`EventTask` inneholder egenskaper for tekst, fullførtstatus og en `isNew`-egenskap. Når en person merker en oppgave som fullført, angir du `isCompleted` som `true`, slik at appen kan spore hvilke oppgaver som gjenstår for hver hendelse.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..title" = "Hendelsesdata";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..Paragraph13" = "Du bruker det [observerbare objektet](glossary://observable%20object) `EventData` til å fylle hendelseslisten med data. Her lærer du hvordan du strukturerer og oppdaterer dataene.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..Page7..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..Page7..Paragraph14" = "Dette er `EventData`-typen som arkiverer og modifiserer alle hendelsene som appen viser i brukergrensesnittet. `EventData` følger `ObservableObject`-[protokollen](glossary://protocol), noe som betyr at hvis noen av dens [publiserte verdier](glossary://published%20value) endres, varsler SwiftUI alle [observatørene](glossary://observer) (visninger som bruker disse verdiene) og oppdaterer dem automatisk.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..Page8..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..Page8..Paragraph15" = "`EventData` inneholder egenskapen `events`. Den lagrer en forhåndsutfylt matrise med `Event`-verdier, for eksempel en spillkveld eller en legetime. Ved å bruke [egenskapsinnpakningen](glossary://property%20wrapper) `@Published` når du definerer denne egenskapen, gir du SwiftUI beskjed om å varsle alle [observatører](glossary://observer) og oppdatere visningene deres når `events`-matrisen endres. Det gjør at du kan legge til og slette hendelser fra en hendelse og umiddelbart se endringene i brukergrensesnittet.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..title" = "Hendelsesliste";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Paragraph16" = "Lær deg hvordan du konstruerer det primære brukergrensesnittet for appen – hendelseslisten – ved hjelp av en [List](doc://com.apple.documentation/documentation/swiftui/list)-visning.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page9..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page9..Paragraph17" = "`EventList`-visningen oppretter en gruppert liste med hendelser ved hjelp av en `List`-visning.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page10..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page10..Paragraph18" = "`DatePlannerApp` overfører det [observerbare objektet](glossary://observable%20object) `eventData` til `EventList` med [egenskapsinnpakningen](glossary://property%20wrapper) `@ObservedObject`. Denne egenskapsinnpakningen gir SwiftUI beskjed om å oppdatere visningen hvis verdien endres.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page11..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page11..Paragraph19" = "Appen bruker en [NavigationSplitView](doc://com.apple.documentation/documentation/swiftui/navigationsplitview) til å navigere mellom forskjellige visninger.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page11..Paragraph20" = "I bredere appkonfigurasjoner, for eksempel liggende i fullskjerm på iPad, viser SwiftUI `NavigationSplitView`-innholdet som flere kolonner ved siden av hverandre i stedet for som én stabel. I denne layouten vises `EventList` i en kolonne i sidepanelet, og målinnholdet vises i primærpanelet.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page12..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page12..Paragraph21" = "Den andre kolonnen viser `EventEditor`-visningen når en person markerer en hendelse i listen. Ellers viser den plassholdervisningen `Text`.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page13..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page13..Paragraph22" = "For å lage listen din oppretter du en `List`-visning og bruker en `ForEach`-løkke for å iterere over alle tidsperiodene (`nextSevenDays`, `nextThirtyDays`, `future` og `past`).";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page14..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page14..Paragraph23" = "Når du vet at det er hendelser i et avsnitt, oppretter du en `Section`-visning og bruker `ForEach` for å iterere over alle hendelsene i den tidsperioden. Bruk metoden `sortedEvents(period:)` fra `EventData` for å returnere hendelsene som er spesifikke for avsnittets tidsperiode.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page15..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page15..Paragraph24" = "Opprett `EventRow`-visninger for hver hendelse i tidsperioden i `ForEach`-løkken.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page16..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page16..Paragraph25" = "For å slette hendelser legger du til modifikatoren `.swipeActions` i hendelsesraden og definerer en knapp som fjerner hendelsen fra `events`-matrisen i `EventData`. Nå kan du sveipe mot venstre på en hendelse og trykke på Slett-knappen for å fjerne den aktuelle hendelsen.";
+
+/* Title for the section of tasks to complete */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..title" = "Persistente appdata";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Paragraph26" = "Gjør data [persistente](glossary://persistence) mellom appåpninger ved å gjøre appdata om til et datalagringsformat ved hjelp av Swifts [Codable](doc://com.apple.documentation/documentation/swift/codable)-protokoll.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..title" = "Persistente appdata";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page17..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page17..Paragraph27" = "Selv om appen kan lagre og publisere oppdateringer av datamodellen i alle relevante visninger, lagrer den ikke disse dataene mellom appåpninger. Det betyr at du mister alle tidligere data hver gang appen starter på nytt. Dette kan du løse ved å bruke [persistens](glossary://persistence) i appen.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page18..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page18..Paragraph28" = "Persistens kan brukes på flere måter, for eksempel med [UserDefaults](doc://com.apple.documentation/documentation/foundation/userdefaults), lokal lagring med [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) og [CoreData](doc://com.apple.documentation/documentation/coredata).";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page18..Paragraph29" = "`UserDefaults` er et godt alternativ hvis du vil at brukerne skal kunne bruke persistente innstillinger, for eksempel for foretrukket tidsformat. `UserDefaults` er perfekt for å lagre og administrere mindre datamengder. Du kan enkelt lagre `UserDefaults` ved hjelp av egenskapsinnpakningen [AppStorage](doc://com.apple.documentation/documentation/swiftui/appstorage).";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page18..Paragraph30" = "Du kan for eksempel lagre en navneverdi med `name` som `UserDefaults`-nøkkel ved å bruke denne kodesnutten:";
+
+/*  */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page18..CodeBlock0" = "@AppStorage(\"name\") var name: String = \"Blu\"\n";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page19..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page19..Paragraph31" = "I dette eksperimentet skal du gjøre en matrise med hendelser fra `EventData` persistent. Siden dette er et lite datasett, kan du gjøre det ved å bruke [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) til å lagre dataene lokalt.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page19..Paragraph32" = "For større datasett kan [CoreData](doc://com.apple.documentation/documentation/coredata) gi bedre ytelse og støtte for funksjoner som å synkronisere data mellom flere enheter.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page20..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page20..Paragraph33" = "Nå skal du få en liten utfordring. For å gjøre hendelsesdataene persistente må du arkivere dem i et datalagringsformat, for eksempel JSON. Men dataene som koden din bruker, er en matrise med `Event`-instanser. Kan du tenke deg hvordan du kan konvertere fra en matrise med `Event`-instanser til JSON for å arkivere dataene dine – og motsatt for å hente dem inn igjen?";
+
+/*  */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page20..CodeBlock1" = "var events: [Event] = []\n";
+
+/*  */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page20..CodeBlock2" = "[{\n    \"symbol\" : \"case.fill\",\n    \"title\" : \"Sayulita Trip\",\n    \"tasks\": [...],\n    \"date\" : [...]\n}]\n";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page21..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page21..Paragraph34" = "Prosessen med å konvertere data til JSON-format kalles [koding](glossary://encode), og når du konverterer dem tilbake fra JSON til data som koden din kan bruke, kalles det [dekoding](glossary://decode). Det eneste du trenger for å konvertere mellom dataformatene, er en koder og en dekoder.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page21..Paragraph35" = "Heldigvis støtter Swift koding og dekoding med [Codable]-protokollen. Hvis typen din, for eksempel `Event`, stemmer overens med `Codable`, kan den kode og dekode til og fra JSON og andre formater. Ta en titt på `Event`-definisjonen for å se hvordan det gjøres.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..title" = "Last inn data fra lokal lagring";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Paragraph36" = "Bruk [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) til å hente og [dekode](glossary://decode) dataene fra lokal lagring.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page22..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page22..Paragraph37" = "[Metoden](glossary://method) `getEventsFileURL` bruker [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) til å hente plasseringen for de lagrede dataene. I dette tilfellet er dataene i appbeholderen i Dokumenter-katalogen. Det er bare appen din som kan lese og skrive til denne plasseringen.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page23..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page23..Paragraph38" = "Når appen kjøres nå, bruker den de forhåndsdefinerte hendelsene i `EventData`. Kan du tenke deg hva som må endres for at appen skal bruke dataene som er lagret i Dokumenter-katalogen i stedet?";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page24..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page24..Paragraph39" = "For å kunne bruke de lagrede dataene må du laste dem inn fra Dokumenter-katalogen.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page24..Paragraph40" = "Finn datafilens plassering ved å kalle `EventData.getEventsFileURL()`. Den leter etter filen `events.data` i Dokumenter-katalogen. Siden denne metoden kan føre til en feil, må du plassere den i et `do`-`catch`-uttrykk. Eventuelle feil som oppstår i `do`-klausulen, kan håndteres i `catch`-klausulen.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page25..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page25..Paragraph41" = "Deretter leser du innholdet i filen til minnet som en [data](doc://com.apple.documentation/documentation/foundation/data)-instans. Den inneholder alle de lagrede dataene, men den er fortsatt kodet som JSON.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page26..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page26..Paragraph42" = "Her [dekoder](glossary://decode) [JSONDecoder](doc://com.apple.documentation/documentation/foundation/jsondecoder) dataene og plasserer dem i en matrise med `Event`-instanser, slik at du kan bruke dem i koden din. Hurra!";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page27..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page27..Paragraph43" = "Hvis dataene ikke lastes inn, viser appen hendelsene som er forhåndsutfylt i `EventData`.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..title" = "Lagre data til lokal lagring";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Paragraph44" = "[Kode](glossary://encode) og lagre dataene dine i lokal lagring.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page28..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page28..Paragraph45" = "På samme måten som du dekodet JSDON-dataene før du brukte dem, må du [kode](glossary://encode) dataobjektet til JSON-formatet. [JSONEncoder](doc://com.apple.documentation/documentation/foundation/jsonencoder) koder `events` fra `Event`-typen til JSON.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page29..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page29..Paragraph46" = "Når dataene er kodet til JSON-formatet, kan du arkivere til lokal lagring ved hjelp av adressen fra `getEventsFileURL`.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page29..Paragraph47" = "Siden `write`-metoden kan føre til en feil, må du kalle den ved å plassere `try`-nøkkelordet foran den.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page30..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page30..Paragraph48" = "Hvis dataene ikke lastes inn, skal det skrives en melding til konsollen som informerer om at dataene ikke ble arkivert.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page31..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page31..Paragraph49" = "Hurra! Nå som du forstår metodene `save()` og `load()`, kan du tilpasse dem for å inkludere persistens i alle apper. Det eneste som gjenstår, er å kalle `save()`- og `load()`-metodene.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..title" = "Kalle metoden last inn og arkiver";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Paragraph50" = "Bruk metodene `load()` og `save()` til å hente inn og arkivere data når noen starter appen og endrer hendelsesdata.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page32..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page32..Paragraph51" = "For å laste inn dataene når appen startes må du registrere når toppnivåvisningen `EventList` vises. Når den vises, kaller du `load()`-metoden. Den metoden laster inn dataene og tildeler dem til den publiserte egenskapen `eventData.events` for å oppdatere hendelseslisten med alle dataene som ble arkivert tidligere.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page32..Paragraph52" = "Bruk [task](doc://com.apple.documentation/documentation/swiftui/view/task(priority:_:))-modifikatoren til å kalle `load()` asynkront før visningen vises.";
+
+/*  */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page32..CodeBlock3" = ".task {\n    eventData.load()\n}\n";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page33..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page33..Paragraph53" = "Selv om du nå laster inn data fra lokal lagring når appen startes, vil det ikke vises data fordi du ikke har arkivert data ennå.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page34..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page34..Paragraph54" = "Når noen redigerer en hendelse, vil du arkivere dataene, slik at appen kan laste dem inn neste gang den startes.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page34..Paragraph55" = "Bruk `.onChange(of:)`-modifikatoren til å registrere endringer i `events`, og kall deretter `eventData.save()` for å arkivere endringene:";
+
+/*  */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page34..CodeBlock4" = ".onChange(of: eventData.events) { _ in\n    eventData.save()\n}\n";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page35..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page35..Paragraph56" = "Jippi! Nå har du lagt til persistens. Legg til en ny hendelse og start appen på nytt for å se om dataene fortsatt ligger der.";
+

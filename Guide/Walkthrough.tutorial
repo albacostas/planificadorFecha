@@ -1,0 +1,226 @@
+@GuideBook(title: "Date Planner", icon: title.png, background: titleBackground.png, firstFile: DatePlannerApp.swift) {
+    @WelcomeMessage(title: "Exploring the Date Planner App") {
+        Use this app to organize and plan a series of events by date.
+    }
+    @Guide {
+        @Step(title: "Date Planner") {
+            @ContentAndMedia {
+                ![](intro.png)  
+                 Welcome to the Date Planner app. Use this app to organize and plan a series of events, organized by date. 
+
+                 In this sample, you’ll use an [observable](glossary://observable%20object) data model to create dynamic lists of events and how to store your data between app launches with data [persistence](glossary://persistence). Time to jump in!
+
+                @GuideButton(type: walkthrough, title: "Start Walkthrough", description: "AX description for button")
+            }
+
+            @TaskGroup(title: "Understanding the data model and creating dynamic lists") {
+                @Task(type: walkthrough, title: "App configuration", id: "eventPlannerApp", file: DatePlannerApp.swift) {
+                    Learn how the app shares data with its views by creating a single data object and making it available to the entire [view hierarchy](glossary://view%20hierarchy).
+                
+                    @Page(id: "1.stateObject", title: "") {
+                        The app stores its data using the variable `eventData`. `eventData` is defined with the `@StateObject` [property wrapper](glossary://property%20wrapper) to create an instance of an [observable object](glossary://observable%20object), `EventData`. Because this object is observable, SwiftUI watches it to track changes to its values. Whenever the data changes, SwiftUI automatically updates the views that use (or [observe](glossary://observer)) it.
+                    }
+                    @Page(id: "1.eventList", title: "") {
+                        Next, the code passes `eventData` into the `EventList` view. For this app, `EventList` is the first view that the app displays when it launches. 
+                    }
+
+                }
+                @Task(type: walkthrough, title: "Event model", id: "event", file: Event.swift) {
+                    Your event model holds all of the data needed to visualize and organize the events in your list. Here, you’ll explore how to structure an `Event`.
+
+                    @Page(id: "2.eventType", title: "") {
+                        To organize its data, the app uses a collection of `Event` objects, each of which represent a specific event, such as a camping trip or birthday party. By conforming to the `Identifiable` [protocol](glossary://protocol), you ensure that when you create a list of events, SwiftUI can identify and update each row. 
+                    }
+                    @Page(id: "2.eventProperties", title: "") {
+                        The `Event` type contains all of the information you need to populate an event, including a symbol, color, title, date, and collection of tasks. Each task is a specific to-do item for the event, such as “Get a camping lantern“.
+                    }
+                    @Page(id: "2.computedProperties", title: "") {
+                        You’ll also notice a list of [computed properties](glossary://computed%20property) for `Event`. These help people organize the sections of their lists based on the date and the number of tasks to complete.
+                    }
+
+                }
+                @Task(type: walkthrough, title: "Event task", id: "eventTask", file: EventTask.swift) {
+                    An event task represents a to-do item for an event. Here, you’ll learn how to model the tasks.
+
+                    @Page(id: "3.eventTask", title: "") {
+                        An `EventTask` represents one of a collection of to-do items for an event. Like `Event`, an `EventTask` is also `Identifiable`, which lets SwiftUI manage and update its appearance in a list.
+                    }
+                    @Page(id: "3.properties", title: "") {
+                        `EventTask` contains properties for text, completion state, and an `isNew` property. When a person marks a task as completed, you set `isCompleted` to `true`, which allows your app to track the remaining tasks for each event.
+                    }
+                }
+                @Task(type: walkthrough, title: "Event data", id: "eventData", file: EventData.swift) {
+                    You use the `EventData` [observable object](glossary://observable%20object) to populate the data in your event list. Here, you’ll learn how to structure and update the data. 
+
+                    @Page(id: "4.eventData", title: "") {
+                        This is the `EventData` type, which stores and modifies all of the events that your app displays in its UI. `EventData` conforms to the `ObservableObject` [protocol](glossary://protocol), which means that if any of its [published values](glossary://published%20value) change, SwiftUI notifies all [observers](glossary://observer) (views that use those values) and updates them automatically.
+                    }
+                    @Page(id: "4.events", title: "") {
+                        `EventData` contains a property called `events` that stores a prepopulated array of `Event` values, such as game night or a doctor’s appointment. By using the `@Published` [property wrapper](glossary://property%20wrapper) when defining this property, you instruct SwiftUI to notify all [observers](glossary://observer) and update their views whenever the `events` array changes. This allows you to add and delete events from the array and instantly see the change in your UI.
+                    }
+
+                }
+                @Task(type: walkthrough, title: "Event list", id: "eventList", file: EventList.swift) {
+                    Learn how to construct the primary UI for the app — the event list — using a [List](doc://com.apple.documentation/documentation/swiftui/list) view.
+
+                    @Page(id: "5.eventList", title: "") {
+                        The `EventList` view creates a grouped listing of events using a `List` view.
+                    }
+                    @Page(id: "5.eventData", title: "") {
+                        The `DatePlannerApp` passes the `eventData` [observable object](glossary://observable%20object) into `EventList` with the `@ObservedObject` [property wrapper](glossary://property%20wrapper). This property wrapper tells SwiftUI to update the view whenever there are any changes to the value.
+                    }
+                    @Page(id: "5.navSplitView", title: "") {
+                        The app uses a [NavigationSplitView](doc://com.apple.documentation/documentation/swiftui/navigationsplitview) to navigate between different views in your app. 
+                        
+                        In wider app configurations, such full-screen landscape on iPad, SwiftUI displays the `NavigationSplitView` content as multiple adjacent columns, rather than a single stack. In this layout, the `EventList` displays in a sidebar column, and its destination content appears in the primary pane. 
+                    }
+                    @Page(id: "5.navSplitViewDetails", title: "") {
+                        The second column displays the `EventEditor` view when a person selects an event in the list; otherwise, it shows the placeholder `Text` view.                    
+                    }
+                    @Page(id: "5.listForEach", title: "") {
+                        To make your list, create a `List` view and use a `ForEach` loop to iterate over all of the time periods (`nextSevenDays`, `nextThirtyDays`, `future`, and `past`).
+                    }
+                    @Page(id: "5.listSection", title: "") {
+                        When you know there are events in a section, create a `Section` view and use `ForEach` to iterate over all events in that time period. Use the method `sortedEvents(period:)` from `EventData` to return the events specific to the section’s time range.
+                    }
+                    @Page(id: "5.eventView", title: "") {
+                        Inside the `ForEach` loop, create the `EventRow` views for each event in the time period.
+                    }
+                    @Page(id: "5.deleteEvents", title: "") {
+                        To delete events, add the modifier `.swipeActions` on the event row and define a button that removes the event from the `events` array in `EventData`. You can now swipe left on an event and tap the Delete button to remove the current event.
+                    }
+                }
+            }
+            
+            @TaskGroup(title: "Persisting app data") {
+                [Persist](glossary://persistence) data across app launches by transforming your app data into a data storage format using the Swift [Codable](doc://com.apple.documentation/documentation/swift/codable) protocol.
+                @Task(type: walkthrough, title: "Persisting app data", id: "persistence", file: Event.swift) {
+
+                    @Page(id: "6.persistence", title: "") {
+                        Even though your app is capable of storing and publishing updates to your data model across all of the relevant views, the app does not store this data between app launches, so you lose all your previous data every time the app restarts. You can fix this by adding [persistence](glossary://persistence) to your app.
+                    }
+                    @Page (id: "6.userDefaults", title:"", isAddable: false){
+                        Persistence can come in multiple forms such as [UserDefaults](doc://com.apple.documentation/documentation/foundation/userdefaults), local storage with [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager), and [CoreData](doc://com.apple.documentation/documentation/coredata).
+                        
+                        `UserDefaults` are great if you want to allow people to persist their preferences, like a preferred time format. `UserDefaults` are ideal for storing and managing small chucks of data. You can simply store `UserDefaults` using the [AppStorage](doc://com.apple.documentation/documentation/swiftui/appstorage) property wrapper. 
+                        
+                        For example, you can store a name value with `name` as the `UserDefaults` key with this code snippet:
+                        ```
+                        @AppStorage("name") var name: String = "Blu"
+                        ```
+                        
+                    }
+                    @Page (id: "6.formsOfPersistence", title:""){
+                        In this experiment, you’ll persist an array of events from `EventData`. Because this is a small dataset, you can achieve this by using [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) to store the data locally.
+                        
+                        For larger datasets, [CoreData](doc://com.apple.documentation/documentation/coredata) can provide better performance and support for features such as syncing data across multiple devices.
+                    }
+                    @Page(id: "6.codablequestion", title: "", isAddable: false) {
+                        Now for a little challenge. To persist your event data, you’ll need to save it in a data storage format, such as JSON. However, the data your code uses is an array of `Event` instances. Can you think of how you can convert from an array of `Event` instances to JSON to save your data — and vice versa to retrieve it?
+                        ```
+                        var events: [Event] = []
+                        ```
+                        ```
+                        [{
+                            "symbol" : "case.fill",
+                            "title" : "Sayulita Trip",
+                            "tasks": [...],
+                            "date" : [...]
+                        }]
+                        ```
+
+                    }
+                    @Page(id: "6.codable", title: "") {
+                        
+                        The process of converting your data into JSON format is known as [encoding](glossary://encode), and converting it back from JSON into data that your code can use is [decoding](glossary://decode). All you need is an encoder and a decoder to convert between the data formats.
+                        
+                        The good news is that Swift supports encoding and decoding with its [Codable] protocol. If your type — such as `Event` — conforms to `Codable`, then it can encode and decode to and from JSON and other formats. Check out the `Event` definition to see how this is done.
+                    }
+                }
+                
+                @Task(type: walkthrough, title: "Load data from local storage", id: "loadFunc", file: EventData.swift) {
+                    Use [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) to retrieve and [decode](glossary://decode) your data from local storage.
+                    
+                    @Page(id: "7.fileURL", title: "") {
+                        The `getEventsFileURL` [method](glossary://method) uses [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) to retrieve the location of the stored data. In this case, your data is within the app container inside the Documents directory. Only your app can read and write to this location. 
+                    }
+                    
+                    @Page(id: "7.loadFuncIntro", title: "") {
+                        When your app currently runs, it defaults to using predefined the events in `EventData`. Can you think of what you would need to change for the app to use data stored in the Documents directory instead?
+                    }
+                    
+                    @Page(id: "7.loadfileURL", title: "") {
+                        To use your stored data, you’ll need to load it from the Documents directory. 
+                                                
+                        Get the location of the data file by calling `EventData.getEventsFileURL()`. This looks for a file named `events.data` in your Documents directory. Because the method call may throw an error you need to place it in a `do`-`catch` statement. Any error thrown in the `do` clause can be handled in the `catch` clause.
+                    }
+                    @Page(id: "7.loadData", title: "") {
+                        Next, you'll read the contents of the file into memory as a [data](doc://com.apple.documentation/documentation/foundation/data) instance. This contains all of your stored data, but it’s still encoded as JSON.                        
+                    }
+                    
+                    @Page(id: "7.loadDataDecode", title: "") {
+                        Here, the [JSONDecoder](doc://com.apple.documentation/documentation/foundation/jsondecoder) [decodes](glossary://decode) the data into an array of `Event` instances, allowing you to use it in your code. Yahoo!
+                        
+                    }
+                    
+                    @Page(id: "7.loadFail", title: "") {
+                        If the data fails to load, the app displays the events prepopulated in `EventData`.
+                        
+                    }
+                }
+                @Task(type: walkthrough, title: "Saving data to local storage", id: "saveFunc", file: EventData.swift) {
+                    [Encode](glossary://encode) and store your data in local storage.
+                    @Page(id: "8.saveEncode", title: "") {
+                        Just like how you decoded the JSON data before you used it, you need to [encode](glossary://encode) your data object to the JSON format. [JSONEncoder](doc://com.apple.documentation/documentation/foundation/jsonencoder) encodes `events` from `Event` type to JSON.
+                    }
+                    @Page(id: "8.saveWrite", title: "") {
+                        With the data encoded in JSON, you can save to your local storage using the address from `getEventsFileURL`. 
+                        
+                        Because the `write` method can throw an error, you need to call it by placing the `try` keyword in front of it.
+                    }
+                    @Page(id: "8.saveFail", title: "") {
+                        If the data fails to load, print a message to the console that the data failed to save.
+                    }
+                    @Page(id: "8.saveDone", title: "") {
+                        Yay! Now that you understand the `save()` and `load()` method, you can take these methods and adapt them to add persistence to any app. All that remains is calling the `save()` and `load()` methods.
+                    }
+                    
+                }
+                
+                @Task(type: experiment, title: "Calling the load and save method", id: "loadData", file: DatePlannerApp.swift) {
+                    Use the `load()` and `save()` methods to retrieve and save data when someone is launching the app and making changes to event data.
+                    
+                    @Page(id: "9.loadingData", title: "") {
+                        To load your data when the app launches, you need to detect when the top-level view, `EventList`, appears. When it appears, call the `load()` method. The method will load the data and assign it to your published property `eventData.events`, updating your event list with all of the previously saved data. 
+                        
+                        Use the [task](doc://com.apple.documentation/documentation/swiftui/view/task(priority:_:)) modifier to call `load()` asynchronously before the view appears.
+                        ```
+                        .task {
+                            eventData.load()
+                        }
+                        ```
+                    }
+                    @Page(id: "9.checkPersistence", title: "") {
+                        Even though you’re now loading data from local storage when the app launches, you won’t see the data display because you haven’t saved the data yet.
+                    }
+                    
+                    @Page(id: "10.saveData", title: "") {
+                        When someone edits an event, you’ll want to save the data so the app can load it on the next launch.
+
+                        Use the `.onChange(of:)` modifier to detect when changes occur to `events`, then call `eventData.save()` to save the changes:
+                        ```
+                        .onChange(of: eventData.events) { _ in
+                            eventData.save()
+                        }
+                        ```
+                    }
+                    
+                    @Page(id: "10.checkPersistence", title: "") {
+                        Woohoo! You have added persistence. Add a new event and relaunch your app to see if your data persisted as expected. 
+                    }
+                }
+                
+            }
+        }
+    }
+}

@@ -1,0 +1,342 @@
+/* Title of Guidebook */
+"GuideBook..title" = "Trình lập kế hoạch ngày";
+
+/* The title of the Welcome Message for the GuideBook */
+"GuideBook..WelcomeMessageExploring the Date Planner App..title" = "Khám phá ứng dụng Trình lập kế hoạch ngày";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..WelcomeMessageExploring the Date Planner App..Paragraph0" = "Sử dụng ứng dụng này để sắp xếp và lập kế hoạch một loạt các sự kiện theo ngày.";
+
+/* Title of step named Date Planner */
+"GuideBook..Guide0..StepDate Planner..title" = "Trình lập kế hoạch ngày";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..LearningCenterContent..Paragraph1" = "![](intro.png)\nChào mừng đến ứng dụng Trình lập kế hoạch ngày. Sử dụng ứng dụng này để sắp xếp và lập kế hoạch một loạt các sự kiện, được sắp xếp theo ngày.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..LearningCenterContent..Paragraph2" = "Trong mẫu này, bạn sẽ sử dụng mô hình dữ liệu [có thể quan sát](glossary://observable%20object) để tạo ra các danh sách sự kiện động và tìm hiểu cách lưu trữ dữ liệu giữa các lần khởi chạy ứng dụng với [tính bền bỉ](glossary://persistence) của dữ liệu. Đã đến lúc bắt đầu!";
+
+/* title of the guide button */
+"GuideBook..Guide0..StepDate Planner..LearningCenterContent..GuideButtonStart Walkthrough..title" = "Bắt đầu hướng dẫn";
+
+/* accessibility description for guide button */
+"GuideBook..Guide0..StepDate Planner..LearningCenterContent..GuideButtonStart Walkthrough..description" = "Mô tả AX cho nút";
+
+/* Title for the section of tasks to complete */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..title" = "Tìm hiểu mô hình dữ liệu và tạo ra các danh sách động";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..title" = "Cấu hình ứng dụng";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..Paragraph3" = "Tìm hiểu cách ứng dụng chia sẻ dữ liệu với các chế độ xem bằng cách tạo ra một đối tượng dữ liệu đơn nhất và cung cấp đối tượng đó cho toàn bộ [phân cấp xem](glossary://view%20hierarchy).";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..Page0..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..Page0..Paragraph4" = "Ứng dụng lưu trữ dữ liệu của mình bằng biến `eventData`. `eventData` được định nghĩa bằng [trình đóng gói thuộc tính](glossary://property%20wrapper) `@StateObject` để tạo ra một thể hiện của [đối tượng có thể quan sát](glossary://observable%20object), `EventData`. Vì đối tượng này là loại có thể quan sát nên SwiftUI giám sát đối tượng để theo dõi các thay đổi đối với giá trị. Bất kỳ lúc nào dữ liệu thay đổi, SwiftUI tự động cập nhật các chế độ xem sử dụng (hoặc [quan sát](glossary://observer)) dữ liệu đó.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..Page1..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventPlannerApp..Page1..Paragraph5" = "Tiếp theo, mã đó chuyển `eventData` vào chế độ xem `EventList`. Đối với ứng dụng này, `EventList` là chế độ xem đầu tiên mà ứng dụng hiển thị khi khởi chạy.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..title" = "Mô hình sự kiện";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Paragraph6" = "Mô hình sự kiện của bạn lưu giữ tất cả dữ liệu cần thiết để trực quan hóa và sắp xếp các sự kiện trong danh sách của bạn. Tại đây, bạn sẽ khám phá cách cấu trúc một `Event`.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page2..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page2..Paragraph7" = "Để sắp xếp dữ liệu, ứng dụng sử dụng một tập hợp các đối tượng `Event`, mỗi đối tượng trong đó biểu thị một sự kiện cụ thể, ví dụ như chuyến đi cắm trại hoặc buổi tiệc sinh nhật. Bằng việc tuân thủ [giao thức](glossary://protocol) `Identifiable`, bạn đảm bảo rằng khi bạn tạo ra một danh sách các sự kiện, SwiftUI có thể nhận dạng và cập nhật từng hàng.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page3..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page3..Paragraph8" = "Loại `Event` chứa tất cả thông tin mà bạn cần để điền vào một sự kiện, bao gồm một biểu tượng, màu, tiêu đề, ngày và tập hợp các tác vụ. Mỗi tác vụ là một mục cần làm cụ thể cho sự kiện, ví dụ như “Lấy đèn cắm trại”.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page4..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..Taskevent..Page4..Paragraph9" = "Bạn cũng sẽ nhận thấy một danh sách các [thuộc tính được tính toán](glossary://computed%20property) cho `Event`. Những thuộc tính này giúp mọi người sắp xếp các phần trong danh sách của họ dựa trên ngày và số lượng tác vụ sẽ hoàn thành.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..title" = "Tác vụ sự kiện";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..Paragraph10" = "Một tác vụ sự kiện biểu thị một mục cần làm cho một sự kiện. Tại đây, bạn sẽ tìm hiểu cách lập mô hình các tác vụ.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..Page5..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..Page5..Paragraph11" = "Một `EventTask` biểu thị một mục trong tập hợp các mục cần làm cho một sự kiện. Như `Event`, một `EventTask` cũng là `Identifiable`, cho phép SwiftUI quản lý và cập nhật sự xuất hiện trong một danh sách.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..Page6..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventTask..Page6..Paragraph12" = "`EventTask` chứa các thuộc tính cho văn bản, trạng thái hoàn thành và một thuộc tính `isNew`. Khi một người đánh dấu một tác vụ là đã hoàn thành, bạn đặt `isCompleted` thành `true`, cho phép ứng dụng của bạn theo dõi các tác vụ còn lại cho từng sự kiện.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..title" = "Dữ liệu sự kiện";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..Paragraph13" = "Bạn sử dụng [đối tượng có thể quan sát](glossary://observable%20object) `EventData` để điền dữ liệu trong danh sách sự kiện của mình. Tại đây, bạn sẽ tìm hiểu cách cấu trúc và cập nhật dữ liệu.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..Page7..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..Page7..Paragraph14" = "Đây là kiểu `EventData`, lưu trữ và sửa đổi tất cả các sự kiện mà ứng dụng của bạn hiển thị trong UI của mình. `EventData` tuân thủ [giao thức](glossary://protocol) `ObservableObject`, nghĩa là nếu có bất kỳ [giá trị đã đăng](glossary://published%20value) nào thay đổi thì SwiftUI thông báo cho tất cả các [trình quan sát](glossary://observer) (các chế độ xem sử dụng các giá trị đó) và cập nhật chúng tự động.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..Page8..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventData..Page8..Paragraph15" = "`EventData` chứa một thuộc tính được gọi là `events` lưu trữ một dãy các giá trị `Event` được điền trước, ví dụ như đêm chơi trò chơi hoặc buổi hẹn với bác sĩ. Bằng việc sử dụng [trình đóng gói thuộc tính](glossary://property%20wrapper) `@Published` khi định nghĩa thuộc tính này, bạn chỉ dẫn SwiftUI thông báo cho tất cả [trình quan sát](glossary://observer) và cập nhật các chế độ xem của chúng bất kỳ lúc nào dãy `events` thay đổi. Việc này cho phép bạn thêm và xóa các sự kiện khỏi dãy và nhìn thấy thay đổi trong UI ngay lập tức.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..title" = "Danh sách sự kiện";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Paragraph16" = "Tìm hiểu cách cấu trúc UI chính cho ứng dụng — danh sách sự kiện — sử dụng một chế độ xem [Danh sách](doc://com.apple.documentation/documentation/swiftui/list).";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page9..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page9..Paragraph17" = "Chế độ xem `EventList` tạo ra một danh sách các sự kiện được nhóm bằng một chế độ xem `List`.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page10..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page10..Paragraph18" = "`DatePlannerApp` chuyển [đối tượng có thể quan sát](glossary://observable%20object) `eventData` vào `EventList` với [trình đóng gói thuộc tính](glossary://property%20wrapper) `@ObservedObject`. Trình đóng gói thuộc tính này thông báo cho SwiftUI cập nhật chế độ xem bất kỳ lúc nào có sự thay đổi đối với giá trị.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page11..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page11..Paragraph19" = "Ứng dụng sử dụng một [NavigationSplitView](doc://com.apple.documentation/documentation/swiftui/navigationsplitview) để điều hướng giữa các chế độ xem khác nhau trong ứng dụng của bạn.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page11..Paragraph20" = "Trong các cấu hình ứng dụng rộng hơn, như chế độ ngang toàn màn hình trên iPad, SwiftUI hiển thị nội dung `NavigationSplitView` dưới dạng nhiều cột liền kề, thay vì một ngăn xếp đơn nhất. Trong bố cục này, `EventList` hiển thị trong một cột thanh bên và nội dung đích xuất hiện trong khung chính.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page12..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page12..Paragraph21" = "Cột thứ hai hiển thị chế độ xem `EventEditor` khi một người chọn một sự kiện trong danh sách; ngược lại, cột đó hiển thị chế độ xem `Text` trình giữ chỗ.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page13..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page13..Paragraph22" = "Để lập danh sách của bạn, hãy tạo ra một chế độ xem `List` và sử dụng một vòng lặp `ForEach` để lặp lại trong tất cả các khoảng thời gian (`nextSevenDays`, `nextThirtyDays`, `future` và `past`).";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page14..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page14..Paragraph23" = "Khi bạn biết có các sự kiện trong một phần, hãy tạo ra một chế độ xem `Section` và sử dụng `ForEach` để lặp lại trên tất cả các sự kiện trong khoảng thời gian đó. Sử dụng phương thức `sortedEvents(period:)` từ `EventData` để trả về các sự kiện cụ thể trong phạm vi thời gian của phần.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page15..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page15..Paragraph24" = "Bên trong vòng lặp `ForEach`, hãy tạo ra các chế độ xem `EventRow` cho từng sự kiện trong khoảng thời gian.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page16..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup0..TaskeventList..Page16..Paragraph25" = "Để xóa các sự kiện, hãy thêm trình sửa đổi `.swipeActions` trên hàng sự kiện và định nghĩa một nút có chức năng xóa sự kiện khỏi dãy `events` trong `EventData`. Bây giờ, bạn có thể vuốt sang trái trên một sự kiện và chạm vào nút Xóa để xóa sự kiện hiện tại.";
+
+/* Title for the section of tasks to complete */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..title" = "Duy trì bền bỉ dữ liệu ứng dụng";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Paragraph26" = "Duy trì [bền bỉ](glossary://persistence) dữ liệu trong các lần khởi chạy ứng dụng bằng cách chuyển đổi dữ liệu ứng dụng của bạn thành định dạng lưu trữ dữ liệu bằng cách sử dụng giao thức [Codable](doc://com.apple.documentation/documentation/swift/codable) của Swift.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..title" = "Duy trì bền bỉ dữ liệu ứng dụng";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page17..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page17..Paragraph27" = "Mặc dù ứng dụng của bạn có khả năng lưu trữ và đăng các cập nhật cho mô hình dữ liệu của bạn trên tất cả các chế độ xem liên quan, nhưng ứng dụng không lưu trữ dữ liệu này giữa các lần khởi chạy ứng dụng, nên bạn mất tất cả dữ liệu trước đó mỗi lần ứng dụng khởi động lại. Bạn có thể khắc phục lỗi này bằng cách thêm [tính bền bỉ](glossary://persistence) vào ứng dụng.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page18..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page18..Paragraph28" = "Tính bền bỉ có thể xuất hiện bằng nhiều hình thức như [UserDefaults](doc://com.apple.documentation/documentation/foundation/userdefaults), ổ lưu trữ cục bộ với [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) và [CoreData](doc://com.apple.documentation/documentation/coredata).";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page18..Paragraph29" = "`UserDefaults` rất tuyệt vời nếu bạn muốn cho phép mọi người duy trì bền bỉ các tùy chọn của họ, ví dụ như định dạng giờ ưu tiên. `UserDefaults` lý tưởng để lưu trữ và quản lý các khối dữ liệu nhỏ. Bạn có thể lưu trữ đơn giản `UserDefaults` bằng trình đóng gói thuộc tính [AppStorage](doc://com.apple.documentation/documentation/swiftui/appstorage).";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page18..Paragraph30" = "Ví dụ: bạn có thể lưu trữ một giá trị tên với `name` dưới dạng khóa `UserDefaults` với đoạn mã này:";
+
+/*  */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page18..CodeBlock0" = "@AppStorage(\"name\") var name: String = \"Blu\"\n";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page19..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page19..Paragraph31" = "Trong thử nghiệm này, bạn sẽ duy trì bền bỉ một dãy các sự kiện từ `EventData`. Vì đây là một tập dữ liệu nhỏ nên bạn có thể đạt được việc này bằng cách sử dụng [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) để lưu trữ dữ liệu cục bộ.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page19..Paragraph32" = "Đối với các tập dữ liệu lớn hơn, [CoreData](doc://com.apple.documentation/documentation/coredata) có thể cung cấp hiệu năng và hỗ trợ tốt hơn đối với các tính năng như đồng bộ hóa dữ liệu trên nhiều thiết bị.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page20..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page20..Paragraph33" = "Bây giờ là một thử thách nhỏ. Để duy trì bền bỉ dữ liệu sự kiện, bạn sẽ cần lưu dữ liệu bằng một định dạng lưu trữ dữ liệu, ví dụ như JSON. Tuy nhiên, dữ liệu mà mã của bạn sử dụng là một dãy các thể hiện `Event`. Bạn có nghĩ được cách chuyển đổi từ một dãy các thể hiện `Event` thành JSON để lưu dữ liệu — và ngược lại để truy xuất không?";
+
+/*  */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page20..CodeBlock1" = "var events: [Event] = []\n";
+
+/*  */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page20..CodeBlock2" = "[{\n    \"symbol\" : \"case.fill\",\n    \"title\" : \"Sayulita Trip\",\n    \"tasks\": [...],\n    \"date\" : [...]\n}]\n";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page21..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page21..Paragraph34" = "Quá trình chuyển đổi dữ liệu của bạn thành định dạng JSON được gọi là [mã hóa](glossary://encode) và quá trình chuyển đổi ngược lại từ JSON thành dữ liệu mà mã của bạn có thể sử dụng là [giải mã](glossary://decode). Tất cả những gì bạn cần là một trình mã hóa và một trình giải mã để chuyển đổi giữa các định dạng dữ liệu.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..Taskpersistence..Page21..Paragraph35" = "May mắn là Swift hỗ trợ mã hóa và giải mã bằng giao thức [Codable]. Nếu kiểu của bạn — ví dụ như `Event` — tuân thủ `Codable` thì có thể mã hóa và giải mã qua lại giữa JSON và các định dạng khác. Hãy kiểm tra định nghĩa của `Event` để xem việc này được thực hiện như thế nào.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..title" = "Tải dữ liệu từ ổ lưu trữ cục bộ";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Paragraph36" = "Sử dụng [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) để truy xuất và [giải mã](glossary://decode) dữ liệu của bạn từ ổ lưu trữ cục bộ.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page22..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page22..Paragraph37" = "[Phương thức](glossary://method) `getEventsFileURL` sử dụng [FileManager](doc://com.apple.documentation/documentation/foundation/filemanager) để truy xuất vị trí của dữ liệu đã lưu trữ. Trong trường hợp này, dữ liệu của bạn ở trong bộ chứa ứng dụng bên trong thư mục Tài liệu. Chỉ ứng dụng của bạn mới có thể đọc và ghi vào vị trí này.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page23..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page23..Paragraph38" = "Khi ứng dụng của bạn đang chạy, ứng dụng mặc định sử dụng các sự kiện được xác định trước trong `EventData`. Bạn có nghĩ được mình cần thay đổi gì để ứng dụng sử dụng dữ liệu được lưu trữ trong thư mục Tài liệu thay vào đó không?";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page24..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page24..Paragraph39" = "Để sử dụng dữ liệu đã lưu trữ của mình, bạn sẽ cần tải dữ liệu từ thư mục Tài liệu.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page24..Paragraph40" = "Lấy vị trí của tệp dữ liệu bằng cách gọi `EventData.getEventsFileURL()`. Lệnh này tìm kiếm một tệp có tên là `events.data` trong thư mục Tài liệu của bạn. Vì phương thức gọi có thể tạo ra lỗi nên bạn cần đặt trong một câu lệnh `do`-`catch`. Bất kỳ lỗi nào được tạo ra trong mệnh đề `do` đều có thể được xử lý trong mệnh đề `catch`.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page25..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page25..Paragraph41" = "Tiếp theo, bạn sẽ đọc nội dung của tệp vào bộ nhớ dưới dạng một thể hiện [dữ liệu](doc://com.apple.documentation/documentation/foundation/data). Thể hiện này chứa tất cả dữ liệu đã lưu trữ của bạn, nhưng vẫn được mã hóa dưới dạng JSON.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page26..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page26..Paragraph42" = "Tại đây, [JSONDecoder](doc://com.apple.documentation/documentation/foundation/jsondecoder) [giải mã](glossary://decode) dữ liệu thành một dãy các thể hiện `Event`, cho phép bạn sử dụng trong mã của mình. Rất tuyệt vời!";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page27..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadFunc..Page27..Paragraph43" = "Nếu dữ liệu không tải được thì ứng dụng hiển thị các sự kiện được điền trước trong `EventData`.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..title" = "Lưu dữ liệu vào ổ lưu trữ cục bộ";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Paragraph44" = "[Mã hóa](glossary://encode) và lưu trữ dữ liệu của bạn trong ổ lưu trữ cục bộ.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page28..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page28..Paragraph45" = "Cũng giống như cách bạn giải mã dữ liệu JSON trước khi sử dụng, bạn cần [mã hóa](glossary://encode) đối tượng dữ liệu của mình thành định dạng JSON. [JSONEncoder](doc://com.apple.documentation/documentation/foundation/jsonencoder) mã hóa `events` từ kiểu `Event` thành JSON.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page29..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page29..Paragraph46" = "Với dữ liệu được mã hóa bằng JSON, bạn có thể lưu vào ổ lưu trữ cục bộ bằng cách sử dụng địa chỉ từ `getEventsFileURL`.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page29..Paragraph47" = "Vì phương thức `write` có thể tạo ra lỗi nên bạn cần gọi phương thức đó bằng cách đặt từ khóa `try` ở phía trước.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page30..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page30..Paragraph48" = "Nếu dữ liệu không tải được, hãy in một thông báo đến bảng điều khiển rằng dữ liệu không lưu được.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page31..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TasksaveFunc..Page31..Paragraph49" = "Hay lắm! Bây giờ, bạn đã hiểu phương thức `save()` và `load()`, bạn có thể sử dụng những phương thức này và điều chỉnh chúng để thêm tính bền bỉ vào bất kỳ ứng dụng nào. Tất cả những gì còn lại là gọi các phương thức `save()` và `load()`.";
+
+/* Title for task */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..title" = "Gọi phương thức tải và lưu";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Paragraph50" = "Sử dụng các phương thức `load()` và `save()` để truy xuất và lưu dữ liệu khi có người đang khởi chạy ứng dụng và thực hiện các thay đổi đối với dữ liệu sự kiện.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page32..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page32..Paragraph51" = "Để tải dữ liệu của bạn khi ứng dụng khởi chạy, bạn cần phát hiện thời điểm chế độ xem cấp cao nhất, `EventList`, xuất hiện. Khi chế độ xem này xuất hiện, hãy gọi phương thức `load()`. Phương thức sẽ tải dữ liệu và gán vào thuộc tính đã đăng `eventData.events` của bạn, cập nhật danh sách sự kiện với tất cả dữ liệu đã lưu trước đó.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page32..Paragraph52" = "Sử dụng trình sửa đổi [tác vụ](doc://com.apple.documentation/documentation/swiftui/view/task(priority:_:)) để gọi `load()` không đồng bộ trước khi chế độ xem xuất hiện.";
+
+/*  */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page32..CodeBlock3" = ".task {\n    eventData.load()\n}\n";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page33..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page33..Paragraph53" = "Mặc dù bây giờ bạn đang tải dữ liệu từ ổ lưu trữ cục bộ khi ứng dụng khởi chạy, nhưng bạn sẽ không nhìn thấy dữ liệu hiển thị vì bạn chưa lưu dữ liệu.";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page34..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page34..Paragraph54" = "Khi có người sửa một sự kiện, bạn sẽ muốn lưu dữ liệu để ứng dụng có thể tải trong lần khởi chạy tiếp theo.";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page34..Paragraph55" = "Sử dụng trình sửa đổi `.onChange(of:)` để phát hiện thời điểm xảy ra các thay đổi đối với `events`, sau đó gọi `eventData.save()` để lưu các thay đổi:";
+
+/*  */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page34..CodeBlock4" = ".onChange(of: eventData.events) { _ in\n    eventData.save()\n}\n";
+
+/* title for page */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page35..title" = "";
+
+/* Paragraph Content delivered to the user. The key should give context as to where this is being delivered to the user */
+"GuideBook..Guide0..StepDate Planner..TaskGroup1..TaskloadData..Page35..Paragraph56" = "Tuyệt vời! Bạn đã thêm tính bền bỉ. Hãy thêm một sự kiện mới và khởi chạy lại ứng dụng của bạn để xem dữ liệu của bạn có bền bỉ như dự kiến không.";
+
