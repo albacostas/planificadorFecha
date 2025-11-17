@@ -162,7 +162,7 @@ extension Array {
 }
 
 // Used for GridRow ForEach id
-extension Array: Identifiable where Element: Hashable {
+extension Array: @retroactive Identifiable where Element: Hashable {
     public var id: Int {
         var hasher = Hasher()
         for element in self {
