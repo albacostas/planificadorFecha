@@ -16,16 +16,15 @@ struct EventList: View {
     // Estado para la fecha seleccionada en el calendario, por defecto hoy.
     @State private var selectedDateFromCalendar: Date? = Date.now.startOfDay
     
+    // Estado para controlar la pestaña activa para ver la vista de la semana.
+    //@State private var activeTab = 0
+    
     var body: some View {
         /*#-code-walkthrough(5.navSplitView)*/
         NavigationSplitView {
-            /*#-code-walkthrough(5.navSplitView)*/
             
-            // Panel Principal: SOLO la vista de Calendario
             VStack {
                 CalendarView(eventData: eventData, selectedDate: $selectedDateFromCalendar)
-                // Cuando se selecciona una fecha en el calendario, se deselecciona cualquier evento 
-                // que pudiera estar abierto para garantizar que se muestre la vista DayEventsDetailView.
                     .onChange(of: selectedDateFromCalendar) { newDate in
                         if newDate != nil {
                             selection = nil
@@ -33,9 +32,9 @@ struct EventList: View {
                     }
                 Spacer()
             }
-            .navigationTitle("Calendar") // Título actualizado
+            .navigationTitle("Date Planner")
             .toolbar {
-                ToolbarItem {
+                ToolbarItem{
                     Button {
                         newEvent = Event()
                         isAddingNewEvent = true
@@ -43,6 +42,7 @@ struct EventList: View {
                         Image(systemName: "plus")
                     }
                 }
+            /*#-code-walkthrough(5.navSplitView)*/
             }
             .sheet(isPresented: $isAddingNewEvent) {
                 NavigationStack {

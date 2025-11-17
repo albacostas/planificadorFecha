@@ -12,23 +12,33 @@ struct DatePlannerApp: App {
     
     var body: some Scene {
         WindowGroup {
-            /*#-code-walkthrough(1.eventList)*/
-            EventList(eventData: eventData)
-            /*#-code-walkthrough(1.eventList)*/
-            //#-learning-task(loadData)
-            // NUEVO: Cargar los datos al aparecer la vista
+            RootTabView(eventData: eventData)
                 .onAppear {
                     eventData.load()
                 }
-            //#-learning-code-snippet(9.loadingData)
-            //#-learning-task(saveData)
-            // NUEVO: Guardar los datos cuando la aplicación se desactiva (se va a segundo plano o se cierra)
-                .onChange(of: scenePhase) { newPhase in
+                .onChange(of: scenePhase) {
+                    newPhase in
                     if newPhase == .inactive || newPhase == .background {
                         eventData.save()
                     }
                 }
+
             //#-learning-code-snippet(10.saveData)
+        }
+    }
+}
+struct RootTabView: View {
+    @ObservedObject var eventData: EventData
+    var body: some View {
+        TabView {
+            EventList(eventData: eventData)
+                .tabItem{
+                    Label("Calendar Flow", systemImage: "calendar")
+                }
+            WeekScheduleFlowView(eventData: eventData)
+                .tabItem { 
+                    Label("Schedule", systemImage: "calendar.day.timeline.leading")
+                }
         }
     }
 }

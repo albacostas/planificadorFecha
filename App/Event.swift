@@ -73,5 +73,17 @@ extension Date {
         let components = Calendar.current.dateComponents([.year, .month], from: self)
         return Calendar.current.date(from: components)
     }
+    
+    var startOfWeek: Date {
+        let calendar = Calendar.current
+        // Obtenemos el año y la semana del año
+        let components = calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: self)
+        // Devolvemos la fecha
+        return calendar.date(from: components)!
+    }
+    
+    func addDays(_ days: Int) -> Date {
+        Calendar.current.date(byAdding: .day, value: days, to: self)!
+    }
 }
 

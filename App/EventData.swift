@@ -130,6 +130,13 @@ class EventData: ObservableObject {
         events.filter {$0.date.isSameDay(as: date) }
             .sorted { $0.date < $1.date }
     }
+    
+    func events(forWeekStarting startOfWeek: Date) -> [Event] {
+        let endOfWeek = startOfWeek.addDays(7)
+        // Filtramos los eventos, queremos solo los que esa semana.
+        return events.filter{ $0.date >= startOfWeek.startOfDay! && $0.date < endOfWeek.startOfWeek }
+        .sorted { $0.date < $1.date }
+    }
     /*#-code-walkthrough(7.fileURL)*/
     private static func getEventsFileURL() throws -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
