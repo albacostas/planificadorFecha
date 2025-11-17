@@ -33,11 +33,11 @@ struct RootTabView: View {
         TabView {
             EventList(eventData: eventData)
                 .tabItem{
-                    Label("Calendar Flow", systemImage: "calendar")
+                    Label("Calendario", systemImage: "calendar")
                 }
             WeekScheduleFlowView(eventData: eventData)
                 .tabItem { 
-                    Label("Schedule", systemImage: "calendar.day.timeline.leading")
+                    Label("Semana", systemImage: "calendar.day.timeline.leading")
                 }
         }
     }

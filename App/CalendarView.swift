@@ -4,6 +4,8 @@ struct CalendarView: View {
     @ObservedObject var eventData: EventData
     // Binding para que EventList.swift pueda reaccionar a la selección de una fecha
     @Binding var selectedDate: Date? 
+    // Binding para comunicar el mes y el actual.
+    @Binding var currentMonthAndYear: String
     
     @State private var monthOffset: Int = 0
     private let calendar = Calendar.current
@@ -22,8 +24,6 @@ struct CalendarView: View {
         var dates: [Date] = []
         let firstWeekday = calendar.component(.weekday, from: startOfMonth) // 1=Sunday, 7=Saturday
         
-        // Add leading empty days (from previous month)
-        // Adjusting for calendar starting on Sunday (1) and using the full week
         let leadingDays = (firstWeekday + 5) % 7
         for i in 0..<leadingDays {
             if let date = calendar.date(byAdding: .day, value: -leadingDays + i, to: startOfMonth) {
@@ -65,11 +65,12 @@ struct CalendarView: View {
                 } label: {
                     Image(systemName: "chevron.left")
                 }
-                
+                /*
                 Text(monthAndYear)
                     .font(.headline)
                     .frame(maxWidth: .infinity)
-                
+                */
+                Spacer() // Añadimos un spacer para empujar los botones a los lados.
                 Button {
                     monthOffset += 1
                 } label: {
@@ -100,9 +101,14 @@ struct CalendarView: View {
             }
             .padding([.horizontal, .bottom])
         }
+        .onAppear{ // Establecemos el titulo cuando la vista aparece.
+            currentMonthAndYear = monthAndYear
+        }
+        .onChange(of: currentMonth) { _ in 
+            currentMonthAndYear = monthAndYear
+        }
     }
     
-    // En CalendarView.swift
     
     @ViewBuilder
     func dayCell(for date: Date) -> some View {
