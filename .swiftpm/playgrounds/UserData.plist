@@ -8,11 +8,11 @@
 		<array/>
 		<key>completedTaskIDs</key>
 		<array>
-			<string>event</string>
-			<string>eventTask</string>
-			<string>eventPlannerApp</string>
 			<string>eventData</string>
+			<string>eventTask</string>
 			<string>eventList</string>
+			<string>event</string>
+			<string>eventPlannerApp</string>
 		</array>
 		<key>hasSeenIntro</key>
 		<false/>
@@ -23,7 +23,7 @@
 		<key>successMessageShowing</key>
 		<false/>
 		<key>taskID</key>
-		<string>persistence</string>
+		<string>$null</string>
 	</dict>
 </dict>
 </plist>

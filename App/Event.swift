@@ -62,4 +62,16 @@ extension Date {
     var thirtyDaysOut: Date {
         Calendar.autoupdatingCurrent.date(byAdding: .day, value: 30, to: self) ?? self
     }
+    func isSameDay(as other: Date) -> Bool {
+        Calendar.current.isDate(self, inSameDayAs: other)
+    }
+    
+    var startOfDay: Date? {
+        Calendar.current.startOfDay(for: self)
+    }
+    var startOfMonth: Date? {
+        let components = Calendar.current.dateComponents([.year, .month], from: self)
+        return Calendar.current.date(from: components)
+    }
 }
+

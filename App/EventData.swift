@@ -126,6 +126,10 @@ class EventData: ObservableObject {
             }
         )
     }
+    func events(for date: Date) -> [Event] {
+        events.filter {$0.date.isSameDay(as: date) }
+            .sorted { $0.date < $1.date }
+    }
     /*#-code-walkthrough(7.fileURL)*/
     private static func getEventsFileURL() throws -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
