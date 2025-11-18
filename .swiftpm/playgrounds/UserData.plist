@@ -8,8 +8,8 @@
 		<array/>
 		<key>completedTaskIDs</key>
 		<array>
-			<string>eventData</string>
 			<string>eventTask</string>
+			<string>eventData</string>
 			<string>eventList</string>
 			<string>event</string>
 			<string>eventPlannerApp</string>

@@ -1,99 +1,65 @@
 import SwiftUI
-//#-learning-task(eventData)
+import Foundation
 
-/*#-code-walkthrough(4.eventData)*/
 class EventData: ObservableObject {
-    /*#-code-walkthrough(4.eventData)*/
-    /*#-code-walkthrough(4.events)*/
-    @Published var events: [Event] = [
-        Event(symbol: "gift.fill",
-              color: Color.red.rgbaColor,
-              title: "Maya's Birthday",
-              tasks: [EventTask(text: "Guava kombucha"),
-                      EventTask(text: "Paper cups and plates"),
-                      EventTask(text: "Cheese plate"),
-                      EventTask(text: "Party poppers"),
-                     ],
-              date: Date.roundedHoursFromNow(60 * 60 * 24 * 30)),
-        Event(symbol: "theatermasks.fill",
-              color: Color.yellow.rgbaColor,
-              title: "Pagliacci",
-              tasks: [EventTask(text: "Buy new tux"),
-                      EventTask(text: "Get tickets"),
-                      EventTask(text: "Book a flight for Carmen"),
-                     ],
-              date: Date.roundedHoursFromNow(60 * 60 * 22)),
-        Event(symbol: "heart.text.square.fill",
-              color: Color.indigo.rgbaColor,
-              title: "Health Check-up",
-              tasks: [EventTask(text: "Bring medical ID"),
-                      EventTask(text: "Record heart rate data"),
-                     ],
-              date: Date.roundedHoursFromNow(60 * 60 * 24 * 4)),
-        Event(symbol: "leaf.fill",
-              color: Color.green.rgbaColor,
-              title: "Camping Trip",
-              tasks: [EventTask(text: "Find a sleeping bag"),
-                      EventTask(text: "Bug spray"),
-                      EventTask(text: "Paper towels"),
-                      EventTask(text: "Food for 4 meals"),
-                      EventTask(text: "Straw hat"),
-                     ],
-              date: Date.roundedHoursFromNow(60 * 60 * 36)),
-        Event(symbol: "gamecontroller.fill",
-              color: Color.cyan.rgbaColor,
-              title: "Game Night",
-              tasks: [EventTask(text: "Find a board game to bring"),
-                      EventTask(text: "Bring a dessert to share"),
-                     ],
-              date: Date.roundedHoursFromNow(60 * 60 * 24 * 2)),
-        Event(symbol: "graduationcap.fill",
-              color: Color.primary.rgbaColor,
-              title: "First Day of School",
-              tasks: [
-                  EventTask(text: "Notebooks"),
-                  EventTask(text: "Pencils"),
-                  EventTask(text: "Binder"),
-                  EventTask(text: "First day of school outfit"),
-              ],
-              date: Date.roundedHoursFromNow(60 * 60 * 24 * 365)),
-        Event(symbol: "book.fill",
-              color: Color.purple.rgbaColor,
-              title: "Book Launch",
-              tasks: [
-                  EventTask(text: "Finish first draft"),
-                  EventTask(text: "Send draft to editor"),
-                  EventTask(text: "Final read-through"),
-              ],
-              date: Date.roundedHoursFromNow(60 * 60 * 24 * 365 * 2)),
-        Event(symbol: "globe.americas.fill",
-              color: Color.gray.rgbaColor,
-              title: "WWDC",
-              tasks: [
-                  EventTask(text: "Watch Keynote"),
-                  EventTask(text: "Watch What's new in SwiftUI"),
-                  EventTask(text: "Go to DT developer labs"),
-                  EventTask(text: "Learn about Create ML"),
-              ],
-              date: Date.from(month: 6, day: 7, year: 2021)),
-        Event(symbol: "case.fill",
-              color: Color.orange.rgbaColor,
-              title: "Sayulita Trip",
-              tasks: [
-                  EventTask(text: "Buy plane tickets"),
-                  EventTask(text: "Get a new bathing suit"),
-                  EventTask(text: "Find a hotel room"),
-              ],
-              date: Date.roundedHoursFromNow(60 * 60 * 24 * 19)),
-    ]
-    /*#-code-walkthrough(4.events)*/
+    
+    @Published var expandedEvents: [Event] = []
+    @Published var events: [Event] = []
+    
+    init() {
+        expandRecurringEvents()
+    }
+    
+    private func expandRecurringEvents() {
+        var expanded: [Event] = []
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let futureLimit = today.addDays(365 * 2)
+        
+        for event in events {
+            expanded.append(event)
+            
+            guard event.repetition.isRepeating && !event.repetition.repeatDays.isEmpty else { continue }
+            
+            var currentDate = event.date.startOfDay
+            let endDate = event.repetition.repetitionEndDate ?? futureLimit
+            
+            while currentDate < endDate && currentDate < futureLimit {
+                currentDate = currentDate.addDays(1)
+                
+                let weekday = calendar.component(.weekday, from: currentDate)
+                
+                if event.repetition.repeatDays.contains(weekday) {
+                    
+                    var recurringEvent = event
+                    
+                    let originalHour = calendar.component(.hour, from: event.date)
+                    let originalMinute = calendar.component(.minute, from: event.date)
+                    
+                    if let newDate = calendar.date(bySettingHour: originalHour, minute: originalMinute, second: 0, of: currentDate) {
+                        recurringEvent.date = newDate
+                        recurringEvent.id = UUID() 
+                        expanded.append(recurringEvent)
+                    }
+                }
+            }
+        }
+        
+        self.expandedEvents = expanded.sorted { $0.date < $1.date }
+    }
     
     func add(_ event: Event) {
         events.append(event)
+        save()
+        expandRecurringEvents()
     }
-        
+    
     func remove(_ event: Event) {
-        events.removeAll { $0.id == event.id}
+        if let index = events.firstIndex(where: { $0.id == event.id }) {
+            events.remove(at: index)
+        }
+        save()
+        expandRecurringEvents()
     }
     
     func sortedEvents(period: Period) -> Binding<[Event]> {
@@ -112,72 +78,61 @@ class EventData: ObservableObject {
             }
         )
     }
-    /*#-code-walkthrough(4.methods)*/
     
     func getBindingToEvent(_ event: Event) -> Binding<Event>? {
-        Binding<Event>(
-            get: {
-                guard let index = self.events.firstIndex(where: { $0.id == event.id }) else { return Event.delete }
-                return self.events[index]
-            },
-            set: { event in
-                guard let index = self.events.firstIndex(where: { $0.id == event.id }) else { return }
-                self.events[index] = event
+        guard let index = events.firstIndex(where: { $0.id == event.id}) else { return nil }
+        return Binding<Event>(
+            get: { self.events[index] },
+            set: { newValue in
+                if !self.events.indices.contains(index) { return }
+                self.events[index] = newValue
+                self.save()
+                self.expandRecurringEvents()
             }
         )
     }
+    
     func events(for date: Date) -> [Event] {
-        events.filter {$0.date.isSameDay(as: date) }
+        expandedEvents.filter { $0.date.isSameDay(as: date) }
             .sorted { $0.date < $1.date }
     }
     
+    // Esta función no se usa en el flujo final, pero se corrige para evitar errores.
     func events(forWeekStarting startOfWeek: Date) -> [Event] {
         let endOfWeek = startOfWeek.addDays(7)
-        // Filtramos los eventos, queremos solo los que esa semana.
-        return events.filter{ $0.date >= startOfWeek.startOfDay! && $0.date < endOfWeek.startOfWeek }
-        .sorted { $0.date < $1.date }
+        // Corregido: startOfDay es una propiedad no opcional
+        return expandedEvents.filter{ $0.date >= startOfWeek.startOfDay && $0.date < endOfWeek.startOfDay } 
+            .sorted { $0.date < $1.date }
     }
+    
     /*#-code-walkthrough(7.fileURL)*/
     private static func getEventsFileURL() throws -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("events.data")
     }
     /*#-code-walkthrough(7.fileURL)*/
-    //#-learning-task(loadFunc)
+    
     func load() {
         do {
-            /*#-code-walkthrough(7.loadfileURL)*/
             let fileURL = try EventData.getEventsFileURL()
-            /*#-code-walkthrough(7.loadfileURL)*/
-            /*#-code-walkthrough(7.loadData)*/
             let data = try Data(contentsOf: fileURL)
-            /*#-code-walkthrough(7.loadData)*/
-            /*#-code-walkthrough(7.loadDataDecode)*/
-            events = try JSONDecoder().decode([Event].self, from: data)
-            /*#-code-walkthrough(7.loadDataDecode)*/
+            let decodedEvents = try JSONDecoder().decode([Event].self, from: data)
+            self.events = decodedEvents
+            self.expandRecurringEvents()
             print("Events loaded: \(events.count)")
         } catch {
-            /*#-code-walkthrough(7.loadFail)*/
             print("Failed to load from file. Backup data used")
-            /*#-code-walkthrough(7.loadFail)*/
         }
     }
     
-    //#-learning-task(saveFunc)
     func save() {
         do {
             let fileURL = try EventData.getEventsFileURL()
-            /*#-code-walkthrough(8.saveEncode)*/
             let data = try JSONEncoder().encode(events)
-            /*#-code-walkthrough(8.saveEncode)*/
-            /*#-code-walkthrough(8.saveWrite)*/
             try data.write(to: fileURL, options: [.atomic, .completeFileProtection])
-            /*#-code-walkthrough(8.saveWrite)*/
             print("Events saved")
         } catch {
-            /*#-code-walkthrough(8.saveFail)*/
             print("Unable to save")
-            /*#-code-walkthrough(8.saveFail)*/
         }
     }
 }
@@ -188,30 +143,6 @@ enum Period: String, CaseIterable, Identifiable {
     case future = "Future"
     case past = "Past"
     
-    var id: String { self.rawValue }
-    var name: String { self.rawValue }
-}
-
-extension Date {
-    static func from(month: Int, day: Int, year: Int) -> Date {
-        var dateComponents = DateComponents()
-        dateComponents.year = year
-        dateComponents.month = month
-        dateComponents.day = day
-        
-        let calendar = Calendar(identifier: .gregorian)
-        if let date = calendar.date(from: dateComponents) {
-            return date
-        } else {
-            return Date.now
-        }
-    }
-
-    static func roundedHoursFromNow(_ hours: Double) -> Date {
-        let exactDate = Date(timeIntervalSinceNow: hours)
-        guard let hourRange = Calendar.current.dateInterval(of: .hour, for: exactDate) else {
-            return exactDate
-        }
-        return hourRange.end
-    }
+    var id: String { return self.rawValue }
+    var name: String { return self.rawValue }
 }
