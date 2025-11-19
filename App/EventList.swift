@@ -1,95 +1,105 @@
 import SwiftUI
-//#-learning-task(eventList)
+import Foundation // Asegurarse de que esté importado
 
-/*#-code-walkthrough(5.eventList)*/
 struct EventList: View {
-    /*#-code-walkthrough(5.eventList)*/
-    /*#-code-walkthrough(5.eventData)*/
     @ObservedObject var eventData: EventData
-    /*#-code-walkthrough(5.eventData)*/
     @State private var isAddingNewEvent = false
     @State private var newEvent = Event()
+    @State private var isManagingCalendars = false
     
-    // Se mantiene para la edición de eventos si se pulsa un evento en la vista de detalle del día
     @State private var selection: Event? 
     
-    // Estado para la fecha seleccionada en el calendario, por defecto hoy.
-    @State private var selectedDateFromCalendar: Date? = Date.now.startOfDay
-    
-    // Estado para guardar el titulo de mes/año
-    @State private var calendarTitle: String = "Date Planner"
-    
-    
-    
-    
-    
     var body: some View {
-        /*#-code-walkthrough(5.navSplitView)*/
-        NavigationSplitView {
-            
-            VStack {
-                CalendarView(eventData: eventData, selectedDate: $selectedDateFromCalendar, currentMonthAndYear: $calendarTitle)
-                    .onChange(of: selectedDateFromCalendar) { newDate in
-                        if newDate != nil {
-                            selection = nil
-                        }
-                    }
-                Spacer()
-            }
-            .navigationTitle(calendarTitle)
-            .toolbar {
-                ToolbarItem{
-                    Button {
+        // Mantener el flujo condicional pero aplicar una única barra de herramientas externa
+        Group {
+            if eventData.isCalendarVisible {
+                NavigationSplitView {
+                    CalendarSidebar(eventData: eventData, onSelectDate: { selection = nil }, onAddEvent: {
                         newEvent = Event()
                         isAddingNewEvent = true
-                    } label: {
-                        Image(systemName: "plus")
-                    }
-                }
-            /*#-code-walkthrough(5.navSplitView)*/
-            }
-            .sheet(isPresented: $isAddingNewEvent) {
-                NavigationStack {
-                    EventEditor(event: $newEvent, isNew: true)
-                        .toolbar {
-                            ToolbarItem(placement: .cancellationAction) {
-                                Button("Cancel") {
-                                    isAddingNewEvent = false
-                                }
-                            }
-                            ToolbarItem {
-                                Button {
-                                    eventData.add(newEvent)
-                                    isAddingNewEvent = false
-                                } label: {
-                                    Text("Add" )
-                                }
-                                .disabled(newEvent.title.isEmpty)
-                            }
+                    }, onManageCalendars: {
+                        isManagingCalendars = true
+                    })
+                } detail: {
+                    ZStack {
+                        if let date = eventData.uiSelectedDate {
+                            DayEventsDetailView(eventData: eventData, date: date, navigationSelection: $selection)
+                        } else if let event = selection, let eventBinding = eventData.getBindingToEvent(event) {
+                            EventEditor(event: eventBinding)
+                        } else {
+                            Text("Select a Day to see your Events")
+                                .foregroundStyle(.secondary)
                         }
+                    }
+                    .navigationTitle(eventData.uiCalendarTitle)
                 }
-            }
-            
-            /*#-code-walkthrough(5.navSplitViewDetails)*/
-        } detail: {
-            // Panel de Detalle: Muestra la vista de eventos del día o el editor de eventos
-            ZStack {
-                // 1. Si se selecciona una fecha en el calendario, muestra la vista de detalle de ese día.
-                if let date = selectedDateFromCalendar {
-                    DayEventsDetailView(eventData: eventData, date: date, navigationSelection: $selection)
-                }
-                // 2. Si se selecciona un evento (esto ocurre si se pulsa un evento dentro de DayEventsDetailView), muestra el editor.
-                else if let event = selection, let eventBinding = eventData.getBindingToEvent(event) {
-                    EventEditor(event: eventBinding)
-                } 
-                // Vista por defecto
-                else {
-                    Text("Select a Day to see your Events")
-                        .foregroundStyle(.secondary)
+            } else {
+                NavigationStack {
+                    ZStack {
+                        if let date = eventData.uiSelectedDate {
+                            // detalle de día
+                            DayEventsDetailView(eventData: eventData, date: date, navigationSelection: $selection)
+                        } else if let event = selection, let eventBinding = eventData.getBindingToEvent(event) {
+                            EventEditor(event: eventBinding)
+                        } else {
+                            WeekScheduleView(
+                                eventData: eventData,
+                                selectedDateFromCalendar: Binding(get: { eventData.uiSelectedDate }, set: { eventData.uiSelectedDate = $0 }),
+                                calendarTitle: Binding(get: { eventData.uiCalendarTitle }, set: { eventData.uiCalendarTitle = $0 })
+                            )
+                            .navigationTitle(eventData.uiCalendarTitle)
+                        }
+                    }
+                    .navigationTitle(eventData.uiCalendarTitle)
                 }
             }
         }
-        /*#-code-walkthrough(5.navSplitViewDetails)*/
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button {
+                    newEvent = Event()
+                    isAddingNewEvent = true
+                } label: { Image(systemName: "plus") }
+                
+                Button {
+                    isManagingCalendars = true
+                } label: { Image(systemName: "calendar.badge.plus") }
+                
+                Button {
+                    eventData.isCalendarVisible.toggle()
+                } label: { Image(systemName: eventData.isCalendarVisible ? "sidebar.left" : "sidebar.right") }
+            }
+        }
+        
+        // Modificadores de Vistas Modales (Sheets)
+        .sheet(isPresented: $isAddingNewEvent) {
+            NavigationStack {
+                EventEditor(event: $newEvent, isNew: true)
+                    .environmentObject(eventData)
+                    .toolbar {
+                        ToolbarItem(placement: .cancellationAction) {
+                            Button("Cancel") {
+                                isAddingNewEvent = false
+                            }
+                        }
+                        ToolbarItem {
+                            Button {
+                                eventData.add(newEvent)
+                                isAddingNewEvent = false
+                            } label: {
+                                Text("Add")
+                            }
+                            .disabled(newEvent.title.isEmpty)
+                        }
+                    }
+            }
+        }
+        .sheet(isPresented: $isManagingCalendars) {
+            // Asumo que SubcalendarManager es una vista definida
+            SubcalendarManager()
+                .environmentObject(eventData)
+        }
+        .environmentObject(eventData)
     }
 }
 
@@ -98,3 +108,4 @@ struct EventList_Previews: PreviewProvider {
         EventList(eventData: EventData())
     }
 }
+

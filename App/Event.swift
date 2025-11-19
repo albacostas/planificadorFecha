@@ -13,6 +13,11 @@ struct Event: Identifiable, Hashable, Codable {
     var title = ""
     var tasks = [EventTask(text: "")]
     var date = Date.now
+    
+    var calendarID: UUID?
+    var subtype: EventSubtype = .task
+    var repeatFrequency: RepeatFrequency = .none
+    var repeatEndDate: Date? = nil
     /*#-code-walkthrough(2.eventProperties)*/
 
     /*#-code-walkthrough(2.computedProperties)*/
@@ -51,6 +56,26 @@ struct Event: Identifiable, Hashable, Codable {
         date: Date(timeIntervalSinceNow: 60 * 60 * 24 * 365 * 1.5))
     
     static var delete = Event(symbol: "trash")
+}
+
+// Subtypes for events so they can be classified inside a subcalendar
+enum EventSubtype: String, CaseIterable, Identifiable, Codable {
+    case task = "Task"
+    case exam = "Exam"
+    case classSession = "Class"
+    case other = "Other"
+    
+    var id: String { self.rawValue }
+}
+
+// Simple repetition frequency enum
+enum RepeatFrequency: String, CaseIterable, Identifiable, Codable {
+    case none = "None"
+    case daily = "Daily"
+    case weekly = "Weekly"
+    case monthly = "Monthly"
+    
+    var id: String { self.rawValue }
 }
 
 // Convenience methods for dates.

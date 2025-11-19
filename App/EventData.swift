@@ -51,47 +51,79 @@ class EventData: ObservableObject {
               color: Color.primary.rgbaColor,
               title: "First Day of School",
               tasks: [
-                  EventTask(text: "Notebooks"),
-                  EventTask(text: "Pencils"),
-                  EventTask(text: "Binder"),
-                  EventTask(text: "First day of school outfit"),
+                EventTask(text: "Notebooks"),
+                EventTask(text: "Pencils"),
+                EventTask(text: "Binder"),
+                EventTask(text: "First day of school outfit"),
               ],
               date: Date.roundedHoursFromNow(60 * 60 * 24 * 365)),
         Event(symbol: "book.fill",
               color: Color.purple.rgbaColor,
               title: "Book Launch",
               tasks: [
-                  EventTask(text: "Finish first draft"),
-                  EventTask(text: "Send draft to editor"),
-                  EventTask(text: "Final read-through"),
+                EventTask(text: "Finish first draft"),
+                EventTask(text: "Send draft to editor"),
+                EventTask(text: "Final read-through"),
               ],
               date: Date.roundedHoursFromNow(60 * 60 * 24 * 365 * 2)),
         Event(symbol: "globe.americas.fill",
               color: Color.gray.rgbaColor,
               title: "WWDC",
               tasks: [
-                  EventTask(text: "Watch Keynote"),
-                  EventTask(text: "Watch What's new in SwiftUI"),
-                  EventTask(text: "Go to DT developer labs"),
-                  EventTask(text: "Learn about Create ML"),
+                EventTask(text: "Watch Keynote"),
+                EventTask(text: "Watch What's new in SwiftUI"),
+                EventTask(text: "Go to DT developer labs"),
+                EventTask(text: "Learn about Create ML"),
               ],
               date: Date.from(month: 6, day: 7, year: 2021)),
         Event(symbol: "case.fill",
               color: Color.orange.rgbaColor,
               title: "Sayulita Trip",
               tasks: [
-                  EventTask(text: "Buy plane tickets"),
-                  EventTask(text: "Get a new bathing suit"),
-                  EventTask(text: "Find a hotel room"),
+                EventTask(text: "Buy plane tickets"),
+                EventTask(text: "Get a new bathing suit"),
+                EventTask(text: "Find a hotel room"),
               ],
               date: Date.roundedHoursFromNow(60 * 60 * 24 * 19)),
     ]
+    // New: support for subcalendars (subjects)
+    @Published var calendars: [Subcalendar] = [
+        Subcalendar(title: "Computación Distribuida", color: Color.blue.rgbaColor),
+        Subcalendar(title: "Matemáticas", color: Color.green.rgbaColor),
+    ]
+    
+    // UI state shared across views: selected date in the calendar, the title shown and visibility
+    @Published var uiSelectedDate: Date? = Date.now.startOfDay
+    @Published var uiCalendarTitle: String = "Date Planner"
+    @Published var isCalendarVisible: Bool = true
+    
+    // Calendar management helpers
+    func addCalendar(_ calendar: Subcalendar) {
+        calendars.append(calendar)
+    }
+    
+    func removeCalendar(_ calendar: Subcalendar) {
+        calendars.removeAll { $0.id == calendar.id }
+    }
+    
+    func getBindingToCalendar(_ calendar: Subcalendar) -> Binding<Subcalendar>? {
+        Binding<Subcalendar>(
+            get: {
+                guard let index = self.calendars.firstIndex(where: { $0.id == calendar.id }) else { return Subcalendar.example }
+                return self.calendars[index]
+            },
+            set: { updated in
+                guard let index = self.calendars.firstIndex(where: { $0.id == updated.id }) else { return }
+                self.calendars[index] = updated
+            }
+        )
+    }
     /*#-code-walkthrough(4.events)*/
     
     func add(_ event: Event) {
         events.append(event)
     }
-        
+    
     func remove(_ event: Event) {
         events.removeAll { $0.id == event.id}
     }
@@ -127,15 +159,92 @@ class EventData: ObservableObject {
         )
     }
     func events(for date: Date) -> [Event] {
-        events.filter {$0.date.isSameDay(as: date) }
-            .sorted { $0.date < $1.date }
+        // Expand repeated events into occurrences for display
+        var result: [Event] = []
+        for event in events {
+            // If not repeating, check same day
+            if event.repeatFrequency == .none {
+                if event.date.isSameDay(as: date) {
+                    result.append(event)
+                }
+            } else {
+                // generate occurrences up to repeatEndDate (or a reasonable horizon)
+                let occurrences = occurrencesFor(event: event, on: date)
+                result.append(contentsOf: occurrences)
+            }
+        }
+        return result.sorted { $0.date < $1.date }
     }
     
     func events(forWeekStarting startOfWeek: Date) -> [Event] {
         let endOfWeek = startOfWeek.addDays(7)
         // Filtramos los eventos, queremos solo los que esa semana.
-        return events.filter{ $0.date >= startOfWeek.startOfDay! && $0.date < endOfWeek.startOfWeek }
-        .sorted { $0.date < $1.date }
+        var result: [Event] = []
+        for event in events {
+            if event.repeatFrequency == .none {
+                if event.date >= startOfWeek.startOfDay! && event.date < endOfWeek.startOfWeek {
+                    result.append(event)
+                }
+            } else {
+                // generate occurrences within the week
+                var day = startOfWeek
+                while day < endOfWeek {
+                    let occ = occurrencesFor(event: event, on: day)
+                    result.append(contentsOf: occ)
+                    day = day.addDays(1)
+                }
+            }
+        }
+        return result.sorted { $0.date < $1.date }
+    }
+    
+    // Generate occurrence(s) of a repeating event for a specific date.
+    private func occurrencesFor(event: Event, on date: Date) -> [Event] {
+        guard event.repeatFrequency != .none else { return [] }
+        // If repeatEndDate specified and date beyond it, no occurrence
+        if let end = event.repeatEndDate, date > end { return [] }
+        
+        let calendar = Calendar.current
+        switch event.repeatFrequency {
+        case .daily:
+            // If the event date's time-of-day should be preserved
+            if calendar.isDate(event.date, equalTo: date, toGranularity: .day) || true {
+                let baseComponents = calendar.dateComponents([.hour, .minute, .second], from: event.date)
+                if let occDate = calendar.date(bySettingHour: baseComponents.hour ?? 0, minute: baseComponents.minute ?? 0, second: baseComponents.second ?? 0, of: date) {
+                    return [makeOccurrence(from: event, date: occDate)]
+                }
+            }
+        case .weekly:
+            let weekdayOfOriginal = calendar.component(.weekday, from: event.date)
+            let weekdayOfTarget = calendar.component(.weekday, from: date)
+            if weekdayOfOriginal == weekdayOfTarget {
+                let baseComponents = calendar.dateComponents([.hour, .minute, .second], from: event.date)
+                if let occDate = calendar.date(bySettingHour: baseComponents.hour ?? 0, minute: baseComponents.minute ?? 0, second: baseComponents.second ?? 0, of: date) {
+                    return [makeOccurrence(from: event, date: occDate)]
+                }
+            }
+        case .monthly:
+            let dayOfMonthOriginal = calendar.component(.day, from: event.date)
+            let dayOfMonthTarget = calendar.component(.day, from: date)
+            if dayOfMonthOriginal == dayOfMonthTarget {
+                let baseComponents = calendar.dateComponents([.hour, .minute, .second], from: event.date)
+                if let occDate = calendar.date(bySettingHour: baseComponents.hour ?? 0, minute: baseComponents.minute ?? 0, second: baseComponents.second ?? 0, of: date) {
+                    return [makeOccurrence(from: event, date: occDate)]
+                }
+            }
+        default:
+            break
+        }
+        return []
+    }
+    
+    // Create a shallow copy of event with modified date to represent an occurrence
+    private func makeOccurrence(from event: Event, date: Date) -> Event {
+        var occ = event
+        // Keep the original event id so edits map back to the source event
+        occ.id = event.id
+        occ.date = date
+        return occ
     }
     /*#-code-walkthrough(7.fileURL)*/
     private static func getEventsFileURL() throws -> URL {
@@ -206,7 +315,7 @@ extension Date {
             return Date.now
         }
     }
-
+    
     static func roundedHoursFromNow(_ hours: Double) -> Date {
         let exactDate = Date(timeIntervalSinceNow: hours)
         guard let hourRange = Calendar.current.dateInterval(of: .hour, for: exactDate) else {
@@ -215,3 +324,4 @@ extension Date {
         return hourRange.end
     }
 }
+
