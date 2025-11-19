@@ -86,6 +86,12 @@ class EventData: ObservableObject {
               ],
               date: Date.roundedHoursFromNow(60 * 60 * 24 * 19)),
     ]
+    
+    // New: support for subcalendars (subjects)
+    @Published var calendars: [Subcalendar] = [
+        Subcalendar(title: "Computación Distribuida", color: Color.blue.rgbaColor),
+        Subcalendar(title: "Matemáticas", color: Color.green.rgbaColor),
+    ]
     /*#-code-walkthrough(4.events)*/
     
     func add(_ event: Event) {
@@ -126,17 +132,94 @@ class EventData: ObservableObject {
             }
         )
     }
-    func events(for date: Date) -> [Event] {
-        events.filter {$0.date.isSameDay(as: date) }
-            .sorted { $0.date < $1.date }
-    }
     
+    func events(for date: Date) -> [Event] {
+        // Expand repeated events into occurrences for display
+        var result: [Event] = []
+        for event in events {
+            // If not repeating, check same day
+            if event.repeatFrequency == .none {
+                if event.date.isSameDay(as: date) {
+                    result.append(event)
+                }
+            } else {
+                // generate occurrences up to repeatEndDate (or a reasonable horizon)
+                let occurrences = occurrencesFor(event: event, on: date)
+                result.append(contentsOf: occurrences)
+            }
+        }
+        return result.sorted { $0.date < $1.date }
+    }
     func events(forWeekStarting startOfWeek: Date) -> [Event] {
         let endOfWeek = startOfWeek.addDays(7)
         // Filtramos los eventos, queremos solo los que esa semana.
-        return events.filter{ $0.date >= startOfWeek.startOfDay! && $0.date < endOfWeek.startOfWeek }
-        .sorted { $0.date < $1.date }
+        var result: [Event] = []
+        for event in events {
+            if event.repeatFrequency == .none {
+                if event.date >= startOfWeek.startOfDay! && event.date < endOfWeek.startOfWeek {
+                    result.append(event)
+                }
+            } else {
+                // generate occurrences within the week
+                var day = startOfWeek
+                while day < endOfWeek {
+                    let occ = occurrencesFor(event: event, on: day)
+                    result.append(contentsOf: occ)
+                    day = day.addDays(1)
+                }
+            }
+        }
+        return result.sorted { $0.date < $1.date }
     }
+    
+    // Generate occurrence(s) of a repeating event for a specific date.
+    private func occurrencesFor(event: Event, on date: Date) -> [Event] {
+        guard event.repeatFrequency != .none else { return [] }
+        // If repeatEndDate specified and date beyond it, no occurrence
+        if let end = event.repeatEndDate, date > end { return [] }
+        
+        let calendar = Calendar.current
+        switch event.repeatFrequency {
+        case .daily:
+            // If the event date's time-of-day should be preserved
+            if calendar.isDate(event.date, equalTo: date, toGranularity: .day) || true {
+                let baseComponents = calendar.dateComponents([.hour, .minute, .second], from: event.date)
+                if let occDate = calendar.date(bySettingHour: baseComponents.hour ?? 0, minute: baseComponents.minute ?? 0, second: baseComponents.second ?? 0, of: date) {
+                    return [makeOccurrence(from: event, date: occDate)]
+                }
+            }
+        case .weekly:
+            let weekdayOfOriginal = calendar.component(.weekday, from: event.date)
+            let weekdayOfTarget = calendar.component(.weekday, from: date)
+            if weekdayOfOriginal == weekdayOfTarget {
+                let baseComponents = calendar.dateComponents([.hour, .minute, .second], from: event.date)
+                if let occDate = calendar.date(bySettingHour: baseComponents.hour ?? 0, minute: baseComponents.minute ?? 0, second: baseComponents.second ?? 0, of: date) {
+                    return [makeOccurrence(from: event, date: occDate)]
+                }
+            }
+        case .monthly:
+            let dayOfMonthOriginal = calendar.component(.day, from: event.date)
+            let dayOfMonthTarget = calendar.component(.day, from: date)
+            if dayOfMonthOriginal == dayOfMonthTarget {
+                let baseComponents = calendar.dateComponents([.hour, .minute, .second], from: event.date)
+                if let occDate = calendar.date(bySettingHour: baseComponents.hour ?? 0, minute: baseComponents.minute ?? 0, second: baseComponents.second ?? 0, of: date) {
+                    return [makeOccurrence(from: event, date: occDate)]
+                }
+            }
+        default:
+            break
+        }
+        return []
+    }
+    
+    // Create a shallow copy of event with modified date to represent an occurrence
+    private func makeOccurrence(from event: Event, date: Date) -> Event {
+        var occ = event
+        occ.id = event.id
+        occ.date = date
+        return occ
+    }
+    
     /*#-code-walkthrough(7.fileURL)*/
     private static func getEventsFileURL() throws -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]

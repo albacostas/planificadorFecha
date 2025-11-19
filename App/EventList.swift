@@ -20,9 +20,6 @@ struct EventList: View {
     @State private var calendarTitle: String = "Date Planner"
     
     
-    
-    
-    
     var body: some View {
         /*#-code-walkthrough(5.navSplitView)*/
         NavigationSplitView {
@@ -51,6 +48,7 @@ struct EventList: View {
             .sheet(isPresented: $isAddingNewEvent) {
                 NavigationStack {
                     EventEditor(event: $newEvent, isNew: true)
+                        .environmentObject(eventData)
                         .toolbar {
                             ToolbarItem(placement: .cancellationAction) {
                                 Button("Cancel") {
@@ -89,6 +87,7 @@ struct EventList: View {
                 }
             }
         }
+        .environmentObject(eventData)
         /*#-code-walkthrough(5.navSplitViewDetails)*/
     }
 }
