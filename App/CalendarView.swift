@@ -8,10 +8,22 @@ struct CalendarView: View {
     @Binding var currentMonthAndYear: String
     
     @State private var monthOffset: Int = 0
-    private let calendar = Calendar.current
+    //private let calendar = Calendar.current
+    private var calendar: Calendar = {
+        var c = Calendar.current
+        c.firstWeekday = 2
+        return c
+    }()
     
     var currentMonth: Date {
         calendar.date(byAdding: .month, value: monthOffset, to: Date.now.startOfMonth!)!
+    }
+    
+    // Make an explicit initializer so the view can be instantiated from other files
+    init(eventData: EventData, selectedDate: Binding<Date?>, currentMonthAndYear: Binding<String>) {
+        self.eventData = eventData
+        self._selectedDate = selectedDate
+        self._currentMonthAndYear = currentMonthAndYear
     }
     
     var monthAndYear: String {
@@ -22,9 +34,12 @@ struct CalendarView: View {
         guard let startOfMonth = currentMonth.startOfMonth else { return [] }
         
         var dates: [Date] = []
-        let firstWeekday = calendar.component(.weekday, from: startOfMonth) // 1=Sunday, 7=Saturday
+        //let firstWeekday = calendar.component(.weekday, from: startOfMonth) // 1=Sunday, 7=Saturday
+        let startWeekday = calendar.component(.weekday, from: startOfMonth) // 1=Sunday, 7=Saturday
         
-        let leadingDays = (firstWeekday + 5) % 7
+        // Calculate leading days so the grid starts on `calendar.firstWeekday` (Monday)
+        let leadingDays = ((startWeekday - calendar.firstWeekday) + 7) % 7
+        //let leadingDays = (firstWeekday + 5) % 7
         for i in 0..<leadingDays {
             if let date = calendar.date(byAdding: .day, value: -leadingDays + i, to: startOfMonth) {
                 dates.append(date)
@@ -82,7 +97,11 @@ struct CalendarView: View {
             // Weekday Headers
             Grid(horizontalSpacing: 8, verticalSpacing: 8) {
                 GridRow {
-                    ForEach(calendar.shortWeekdaySymbols, id: \.self) { day in
+                    // Ensure headers start on the calendar's firstWeekday (Monday)
+                    let symbols = calendar.shortWeekdaySymbols
+                    let start = calendar.firstWeekday - 1
+                    let ordered = Array(symbols[start...] + symbols[..<start])
+                    ForEach(ordered, id: \.self) { day in
                         Text(day.prefix(1)) // Muestra solo la primera letra
                             .font(.caption)
                             .fontWeight(.bold)
