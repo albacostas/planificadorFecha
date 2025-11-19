@@ -92,6 +92,27 @@ class EventData: ObservableObject {
         Subcalendar(title: "Computación Distribuida", color: Color.blue.rgbaColor),
         Subcalendar(title: "Matemáticas", color: Color.green.rgbaColor),
     ]
+    
+    func addCalendar(_ calendar: Subcalendar){
+        calendars.append(calendar)
+    }
+    
+    func removeCalendar(_ calendar: Subcalendar) {
+        calendars.removeAll { $0.id == calendar.id}
+    }
+    
+    func getBindingToCalendar(_ calendar: Subcalendar) -> Binding<Subcalendar>? {
+        Binding<Subcalendar>(
+            get: {
+                guard let index = self.calendars.firstIndex(where:{ $0.id == calendar.id }) else { return Subcalendar.example }
+                return self.calendars[index]
+            },
+            set: {update in
+                guard let index = self.calendars.firstIndex(where: { $0.id == calendar.id }) else { return }
+                self.calendars[index] = update
+            }
+        )
+    }
     /*#-code-walkthrough(4.events)*/
     
     func add(_ event: Event) {

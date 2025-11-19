@@ -9,7 +9,7 @@ struct EventList: View {
     /*#-code-walkthrough(5.eventData)*/
     @State private var isAddingNewEvent = false
     @State private var newEvent = Event()
-    
+    @State private var isManagingCalendars = false
     // Se mantiene para la edición de eventos si se pulsa un evento en la vista de detalle del día
     @State private var selection: Event? 
     
@@ -43,6 +43,13 @@ struct EventList: View {
                         Image(systemName: "plus")
                     }
                 }
+                ToolbarItem {
+                    Button {
+                        isManagingCalendars = true
+                    } label: {
+                        Image(systemName: "calendar.badge.plus")
+                    }
+                }
             /*#-code-walkthrough(5.navSplitView)*/
             }
             .sheet(isPresented: $isAddingNewEvent) {
@@ -66,6 +73,10 @@ struct EventList: View {
                             }
                         }
                 }
+            }
+            .sheet(isPresented: $isManagingCalendars) {
+                SubcalendarManager()
+                    .environmentObject(eventData)
             }
             
             /*#-code-walkthrough(5.navSplitViewDetails)*/
