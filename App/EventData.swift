@@ -51,65 +51,70 @@ class EventData: ObservableObject {
               color: Color.primary.rgbaColor,
               title: "First Day of School",
               tasks: [
-                  EventTask(text: "Notebooks"),
-                  EventTask(text: "Pencils"),
-                  EventTask(text: "Binder"),
-                  EventTask(text: "First day of school outfit"),
+                EventTask(text: "Notebooks"),
+                EventTask(text: "Pencils"),
+                EventTask(text: "Binder"),
+                EventTask(text: "First day of school outfit"),
               ],
               date: Date.roundedHoursFromNow(60 * 60 * 24 * 365)),
         Event(symbol: "book.fill",
               color: Color.purple.rgbaColor,
               title: "Book Launch",
               tasks: [
-                  EventTask(text: "Finish first draft"),
-                  EventTask(text: "Send draft to editor"),
-                  EventTask(text: "Final read-through"),
+                EventTask(text: "Finish first draft"),
+                EventTask(text: "Send draft to editor"),
+                EventTask(text: "Final read-through"),
               ],
               date: Date.roundedHoursFromNow(60 * 60 * 24 * 365 * 2)),
         Event(symbol: "globe.americas.fill",
               color: Color.gray.rgbaColor,
               title: "WWDC",
               tasks: [
-                  EventTask(text: "Watch Keynote"),
-                  EventTask(text: "Watch What's new in SwiftUI"),
-                  EventTask(text: "Go to DT developer labs"),
-                  EventTask(text: "Learn about Create ML"),
+                EventTask(text: "Watch Keynote"),
+                EventTask(text: "Watch What's new in SwiftUI"),
+                EventTask(text: "Go to DT developer labs"),
+                EventTask(text: "Learn about Create ML"),
               ],
               date: Date.from(month: 6, day: 7, year: 2021)),
         Event(symbol: "case.fill",
               color: Color.orange.rgbaColor,
               title: "Sayulita Trip",
               tasks: [
-                  EventTask(text: "Buy plane tickets"),
-                  EventTask(text: "Get a new bathing suit"),
-                  EventTask(text: "Find a hotel room"),
+                EventTask(text: "Buy plane tickets"),
+                EventTask(text: "Get a new bathing suit"),
+                EventTask(text: "Find a hotel room"),
               ],
               date: Date.roundedHoursFromNow(60 * 60 * 24 * 19)),
     ]
-    
     // New: support for subcalendars (subjects)
     @Published var calendars: [Subcalendar] = [
         Subcalendar(title: "Computación Distribuida", color: Color.blue.rgbaColor),
         Subcalendar(title: "Matemáticas", color: Color.green.rgbaColor),
     ]
     
-    func addCalendar(_ calendar: Subcalendar){
+    // UI state shared across views: selected date in the calendar, the title shown and visibility
+    @Published var uiSelectedDate: Date? = Date.now.startOfDay
+    @Published var uiCalendarTitle: String = "Date Planner"
+    @Published var isCalendarVisible: Bool = true
+    
+    // Calendar management helpers
+    func addCalendar(_ calendar: Subcalendar) {
         calendars.append(calendar)
     }
     
     func removeCalendar(_ calendar: Subcalendar) {
-        calendars.removeAll { $0.id == calendar.id}
+        calendars.removeAll { $0.id == calendar.id }
     }
     
     func getBindingToCalendar(_ calendar: Subcalendar) -> Binding<Subcalendar>? {
         Binding<Subcalendar>(
             get: {
-                guard let index = self.calendars.firstIndex(where:{ $0.id == calendar.id }) else { return Subcalendar.example }
+                guard let index = self.calendars.firstIndex(where: { $0.id == calendar.id }) else { return Subcalendar.example }
                 return self.calendars[index]
             },
-            set: {update in
-                guard let index = self.calendars.firstIndex(where: { $0.id == calendar.id }) else { return }
-                self.calendars[index] = update
+            set: { updated in
+                guard let index = self.calendars.firstIndex(where: { $0.id == updated.id }) else { return }
+                self.calendars[index] = updated
             }
         )
     }
@@ -118,7 +123,7 @@ class EventData: ObservableObject {
     func add(_ event: Event) {
         events.append(event)
     }
-        
+    
     func remove(_ event: Event) {
         events.removeAll { $0.id == event.id}
     }
@@ -153,7 +158,6 @@ class EventData: ObservableObject {
             }
         )
     }
-    
     func events(for date: Date) -> [Event] {
         // Expand repeated events into occurrences for display
         var result: [Event] = []
@@ -171,6 +175,7 @@ class EventData: ObservableObject {
         }
         return result.sorted { $0.date < $1.date }
     }
+    
     func events(forWeekStarting startOfWeek: Date) -> [Event] {
         let endOfWeek = startOfWeek.addDays(7)
         // Filtramos los eventos, queremos solo los que esa semana.
@@ -236,11 +241,11 @@ class EventData: ObservableObject {
     // Create a shallow copy of event with modified date to represent an occurrence
     private func makeOccurrence(from event: Event, date: Date) -> Event {
         var occ = event
+        // Keep the original event id so edits map back to the source event
         occ.id = event.id
         occ.date = date
         return occ
     }
-    
     /*#-code-walkthrough(7.fileURL)*/
     private static func getEventsFileURL() throws -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
@@ -310,7 +315,7 @@ extension Date {
             return Date.now
         }
     }
-
+    
     static func roundedHoursFromNow(_ hours: Double) -> Date {
         let exactDate = Date(timeIntervalSinceNow: hours)
         guard let hourRange = Calendar.current.dateInterval(of: .hour, for: exactDate) else {
@@ -319,3 +324,4 @@ extension Date {
         return hourRange.end
     }
 }
+

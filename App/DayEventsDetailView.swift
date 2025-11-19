@@ -53,3 +53,4 @@ struct DayEventsDetailView: View {
         .navigationTitle("Day Details")
     }
 }
+

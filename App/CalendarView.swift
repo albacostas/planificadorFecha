@@ -66,10 +66,10 @@ struct CalendarView: View {
                     Image(systemName: "chevron.left")
                 }
                 /*
-                Text(monthAndYear)
-                    .font(.headline)
-                    .frame(maxWidth: .infinity)
-                */
+                 Text(monthAndYear)
+                 .font(.headline)
+                 .frame(maxWidth: .infinity)
+                 */
                 Spacer() // Añadimos un spacer para empujar los botones a los lados.
                 Button {
                     monthOffset += 1
@@ -177,3 +177,4 @@ extension Array: @retroactive Identifiable where Element: Hashable {
         return hasher.finalize()
     }
 }
+

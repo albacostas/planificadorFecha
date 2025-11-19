@@ -6,6 +6,9 @@ import Foundation
  */
 struct WeekScheduleView: View { // <-- ESTRUCTURA PRINCIPAL AÑADIDA
     @ObservedObject var eventData: EventData
+    // Si se pasa un binding de fecha seleccionada desde un calendario lateral, lo usaremos.
+    @Binding var selectedDateFromCalendar: Date?
+    @Binding var calendarTitle: String
     
     @State private var currentWeekStart: Date = Date.now.startOfWeek
     
@@ -51,6 +54,11 @@ struct WeekScheduleView: View { // <-- ESTRUCTURA PRINCIPAL AÑADIDA
                 .padding(.horizontal)
             }
             .padding(.top)
+            .onChange(of: selectedDateFromCalendar) { newDate in
+                if let d = newDate {
+                    currentWeekStart = d.startOfWeek
+                }
+            }
         }
     }
     
