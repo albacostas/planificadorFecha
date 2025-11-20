@@ -13,6 +13,9 @@
 			<string>event</string>
 			<string>eventTask</string>
 			<string>eventPlannerApp</string>
+			<string>event</string>
+			<string>eventList</string>
+			<string>eventTask</string>
 		</array>
 		<key>hasSeenIntro</key>
 		<false/>
