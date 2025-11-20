@@ -9,10 +9,10 @@
 		<key>completedTaskIDs</key>
 		<array>
 			<string>eventData</string>
-			<string>eventTask</string>
-			<string>eventList</string>
 			<string>event</string>
+			<string>eventList</string>
 			<string>eventPlannerApp</string>
+			<string>eventTask</string>
 		</array>
 		<key>hasSeenIntro</key>
 		<false/>
