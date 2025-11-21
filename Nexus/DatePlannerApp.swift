@@ -1,16 +1,13 @@
 import SwiftUI
 import CoreData
-//#-learning-task(eventPlannerApp)
 
 @main
 struct DatePlannerApp: App {
-    /*#-code-walkthrough(1.stateObject)*/
     // Create EventData backed by Core Data context
     
     @StateObject private var eventData = EventData(context: PersistenceController.shared.container.viewContext)
-    /*#-code-walkthrough(1.stateObject)*/
     
-    // NEW: Variable de entorno para detectar cambios en el estado de la aplicación
+    // Detectar cambios en el estado de la aplicación
     @Environment(\.scenePhase) private var scenePhase
     
     var body: some Scene {
@@ -28,17 +25,21 @@ struct DatePlannerApp: App {
 }
 struct RootTabView: View {
     @ObservedObject var eventData: EventData
+    // Control explícito para la pestaña selecionada.
+    @State var selectedTab: Int = 0 // 0 = Calendario; 1 = Semana
     var body: some View {
         ZStack {
-            TabView {
+            TabView(selection: $selectedTab) {
                 EventList(eventData: eventData)
                     .tabItem{
                         Label("Calendario", systemImage: "calendar")
                     }
+                    .tag(0)
                 WeekScheduleFlowView(eventData: eventData)
                     .tabItem {
                         Label("Semana", systemImage: "calendar.day.timeline.leading")
                     }
+                    .tag(1)
             }
 
             // Floating toggle button: visible only when the sidebar is hidden

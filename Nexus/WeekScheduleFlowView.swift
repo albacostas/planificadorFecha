@@ -11,6 +11,9 @@ struct WeekScheduleFlowView: View {
     @State private var isAddingNewEvent = false
     @State private var newEvent = Event()
     @State private var isManagingCalendars = false
+    
+    var selectedTab: Binding<Int>? = nil
+    
     var body: some View {
         Group {
             if eventData.isCalendarVisible {
@@ -22,7 +25,12 @@ struct WeekScheduleFlowView: View {
                             onAddEvent: {},
                             onManageCalendars: {},
                             onToggleSidebar: {
-                                eventData.isCalendarVisible.toggle()
+                                withAnimation{
+                                    eventData.isCalendarVisible.toggle()
+                                    
+                                    selectedTab?.wrappedValue = 1
+                                }
+                                
                             }
                         )
                     } detail: {
@@ -46,7 +54,10 @@ struct WeekScheduleFlowView: View {
                                 onAddEvent: {},
                                 onManageCalendars: {},
                                 onToggleSidebar: {
-                                    eventData.isCalendarVisible.toggle()
+                                    withAnimation {
+                                        eventData.isCalendarVisible.toggle()
+                                        selectedTab?.wrappedValue = 1
+                                    }
                                 }
                             )
                             .frame(maxWidth: .infinity)
@@ -69,7 +80,9 @@ struct WeekScheduleFlowView: View {
             // Toggle en la izquierda (junto al título)
             ToolbarItem(placement: .navigationBarLeading) {
                 Button {
-                    withAnimation { eventData.isCalendarVisible.toggle() }
+                    withAnimation { eventData.isCalendarVisible.toggle()
+                        selectedTab?.wrappedValue = 1
+                    }
                 } label: {
                     Image(systemName: eventData.isCalendarVisible ? "sidebar.left" : "sidebar.right")
                 }
