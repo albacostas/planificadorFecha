@@ -151,6 +151,15 @@ class EventData: ObservableObject {
         allEvents.removeAll { $0.id == event.id}
     }
     
+    // Toggle a task's completion state for a given event and task id.
+        // This is used by compact views (occurrences) where we only have a copied `Event`.
+    func toggleTask(eventID: UUID, taskID: UUID) {
+        guard let eIndex = allEvents.firstIndex(where: { $0.id == eventID }) else { return }
+        guard let tIndex = allEvents[eIndex].tasks.firstIndex(where: { $0.id == taskID }) else { return }
+            allEvents[eIndex].tasks[tIndex].isCompleted.toggle()
+        if moc != nil { save() }
+    }
+    
     func sortedEvents(period: Period) -> Binding<[Event]> {
         Binding<[Event]>(
             get: {

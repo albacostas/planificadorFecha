@@ -32,11 +32,20 @@ struct DayEventsDetailView: View {
                             // Listado de tareas (tasks) del evento
                             ForEach(event.tasks.filter { !$0.text.isEmpty }) { task in
                                 HStack {
-                                    Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
-                                        .foregroundColor(task.isCompleted ? .green : Color(event.color))
+                                    Button {
+                                        // Toggle via EventData so we update the source event (handles occurrences)
+                                        eventData.toggleTask(eventID: event.id, taskID: task.id)
+                                    } label: {
+                                        Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
+                                            .foregroundColor(task.isCompleted ? .green : Color(event.color))
+                                            .frame(width: 30, height: 30)
+                                    }
+                                    .buttonStyle(.plain)
+                                    
                                     Text(task.text)
                                         .strikethrough(task.isCompleted)
-                                        .foregroundColor(.secondary)
+                                        .foregroundColor(task.isCompleted ? .secondary : .primary)
+                                    
                                 }
                                 .padding(.leading, 5)
                             }
