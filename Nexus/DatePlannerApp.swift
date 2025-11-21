@@ -29,15 +29,41 @@ struct DatePlannerApp: App {
 struct RootTabView: View {
     @ObservedObject var eventData: EventData
     var body: some View {
-        TabView {
-            EventList(eventData: eventData)
-                .tabItem{
-                    Label("Calendario", systemImage: "calendar")
+        ZStack {
+            TabView {
+                EventList(eventData: eventData)
+                    .tabItem{
+                        Label("Calendario", systemImage: "calendar")
+                    }
+                WeekScheduleFlowView(eventData: eventData)
+                    .tabItem {
+                        Label("Semana", systemImage: "calendar.day.timeline.leading")
+                    }
+            }
+
+            // Floating toggle button: visible only when the sidebar is hidden
+            if !eventData.isCalendarVisible {
+                VStack {
+                    Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            withAnimation { eventData.isCalendarVisible = true }
+                        }) {
+                            Image(systemName: "sidebar.left")
+                                .font(.system(size: 20, weight: .semibold))
+                                .foregroundColor(.white)
+                                .padding(12)
+                                .background(Circle().fill(Color.accentColor))
+                                .shadow(radius: 4)
+                        }
+                        .padding()
+                        .accessibilityLabel("Mostrar barra lateral")
+                    }
                 }
-            WeekScheduleFlowView(eventData: eventData)
-                .tabItem { 
-                    Label("Semana", systemImage: "calendar.day.timeline.leading")
-                }
+                .transition(.move(edge: .trailing).combined(with: .opacity))
+            }
         }
     }
 }
+

@@ -50,7 +50,7 @@ struct DayEventsDetailView: View {
                 }
             }
         }
-        .navigationTitle("Day Details")
+        .navigationTitle("Nexus") // Quiero que apareza aqui el dia/mes/año
     }
 }
 

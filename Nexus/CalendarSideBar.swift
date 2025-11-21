@@ -9,6 +9,9 @@ struct CalendarSidebar: View {
     var onAddEvent: (() -> Void)? = nil
     var onManageCalendars: (() -> Void)? = nil
     
+    var onToggleSidebar: (() -> Void)? = nil
+    
+    
     @State private var editingCalendar: Subcalendar? = nil
     
     var body: some View {
@@ -26,6 +29,14 @@ struct CalendarSidebar: View {
                 
                 // Top action row: add / manage
                 HStack(spacing: 12) {
+                    
+                    // Toggle button: useful on compact layouts where the navigation bar toolbar may be hidden
+                    Button(action: {
+                        onToggleSidebar?()
+                    }) {
+                        Image(systemName: "sidebar.left")
+                    }
+                    .buttonStyle(.borderless)
                     Spacer()
                     Button(action: {
                         // Create a new calendar and open editor

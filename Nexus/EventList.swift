@@ -7,31 +7,68 @@ struct EventList: View {
     @State private var newEvent = Event()
     @State private var isManagingCalendars = false
     
-    @State private var selection: Event? 
+    @State private var selection: Event?
+    @Environment(\.horizontalSizeClass) private var horizontalSizeClass
     
     var body: some View {
         // Mantener el flujo condicional pero aplicar una única barra de herramientas externa
         Group {
             if eventData.isCalendarVisible {
-                NavigationSplitView {
-                    CalendarSidebar(eventData: eventData, onSelectDate: { selection = nil }, onAddEvent: {
-                        newEvent = Event()
-                        isAddingNewEvent = true
-                    }, onManageCalendars: {
-                        isManagingCalendars = true
-                    })
-                } detail: {
-                    ZStack {
-                        if let date = eventData.uiSelectedDate {
-                            DayEventsDetailView(eventData: eventData, date: date, navigationSelection: $selection)
-                        } else if let event = selection, let eventBinding = eventData.getBindingToEvent(event) {
-                            EventEditor(event: eventBinding)
-                        } else {
-                            Text("Select a Day to see your Events")
-                                .foregroundStyle(.secondary)
+                // Use a split view on regular width (iPad), but a stacked layout on compact (iPhone)
+                if horizontalSizeClass == .regular {
+                    NavigationSplitView {
+                        CalendarSidebar(eventData: eventData, onSelectDate: { selection = nil }, onAddEvent: {
+                            newEvent = Event()
+                            isAddingNewEvent = true
+                        }, onManageCalendars: {
+                            isManagingCalendars = true
+                        },
+                            onToggleSidebar: { eventData.isCalendarVisible.toggle()
+                        })
+                    } detail: {
+                        ZStack {
+                            if let date = eventData.uiSelectedDate {
+                                DayEventsDetailView(eventData: eventData, date: date, navigationSelection: $selection)
+                            } else if let event = selection, let eventBinding = eventData.getBindingToEvent(event) {
+                                EventEditor(event: eventBinding)
+                            } else {
+                                Text("Select a Day to see your Events")
+                                    .foregroundStyle(.secondary)
+                            }
+                        }
+                        .navigationTitle(eventData.uiCalendarTitle)
+                    }
+                } else {
+                    // Compact: mostrar la barra lateral arriba y el detalle debajo para garantizar visibilidad
+                    NavigationStack {
+                        VStack(spacing: 0) {
+                            CalendarSidebar(eventData: eventData, onSelectDate: { selection = nil }, onAddEvent: {
+                                newEvent = Event()
+                                isAddingNewEvent = true
+                            }, onManageCalendars: {
+                                isManagingCalendars = true
+                            },
+                                onToggleSidebar: { eventData.isCalendarVisible.toggle()
+                            })
+                            .frame(maxWidth: .infinity)
+                            .background(Color(UIColor.systemGroupedBackground))
+                            Divider()
+                            ZStack {
+                                if let date = eventData.uiSelectedDate {
+                                    DayEventsDetailView(eventData: eventData, date: date, navigationSelection: $selection)
+                                } else if let event = selection, let eventBinding = eventData.getBindingToEvent(event) {
+                                    EventEditor(event: eventBinding)
+                                } else {
+                                    WeekScheduleView(
+                                        eventData: eventData,
+                                        selectedDateFromCalendar: Binding(get: { eventData.uiSelectedDate }, set: { eventData.uiSelectedDate = $0 }),
+                                        calendarTitle: Binding(get: { eventData.uiCalendarTitle }, set: { eventData.uiCalendarTitle = $0 })
+                                    )
+                                }
+                            }
+                            .navigationTitle(eventData.uiCalendarTitle)
                         }
                     }
-                    .navigationTitle(eventData.uiCalendarTitle)
                 }
             } else {
                 NavigationStack {
@@ -55,6 +92,13 @@ struct EventList: View {
             }
         }
         .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button {
+                    withAnimation { eventData.isCalendarVisible.toggle() }
+                } label: {
+                    Image(systemName: eventData.isCalendarVisible ? "sidebar.left" : "sidebar.right")
+                }
+            }
             ToolbarItemGroup(placement: .navigationBarTrailing) {
                 Button {
                     newEvent = Event()
@@ -108,4 +152,5 @@ struct EventList_Previews: PreviewProvider {
         EventList(eventData: EventData())
     }
 }
+
 
