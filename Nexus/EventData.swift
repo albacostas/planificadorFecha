@@ -1,17 +1,8 @@
 import SwiftUI
 import CoreData
-internal import Combine
-//#-learning-task(eventData)
+import Combine
 
-/*#-code-walkthrough(4.eventData)*/
-import SwiftUI
-import CoreData
-//#-learning-task(eventData)
-
-/*#-code-walkthrough(4.eventData)*/
 class EventData: ObservableObject {
-    /*#-code-walkthrough(4.eventData)*/
-    /*#-code-walkthrough(4.events)*/
     // Optional Core Data context. If provided, persistence happens in Core Data using background contexts.
     private var moc: NSManagedObjectContext?
 
@@ -300,7 +291,6 @@ class EventData: ObservableObject {
             .appendingPathComponent("events.data")
     }
    
-    //#-learning-task(loadFunc)
     func load() {
         // Backwards-compatible loader; prefer Core Data if available
         if moc != nil {
@@ -318,7 +308,7 @@ class EventData: ObservableObject {
         }
     }
     
-    //#-learning-task(saveFunc)
+    
     func save() {
         // Prefer Core Data persistence when a context is available
         if let moc = self.moc {
@@ -336,7 +326,7 @@ class EventData: ObservableObject {
         }
     }
 
-    // MARK: - Core Data integration
+    // Core Data integration
     private func loadFromCoreData() {
         guard let moc = self.moc else { return }
         let request = NSFetchRequest<NSManagedObject>(entityName: "CDEvent")

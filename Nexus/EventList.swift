@@ -133,7 +133,8 @@ struct EventList: View {
                             } label: {
                                 Text("Add")
                             }
-                            .disabled(newEvent.title.isEmpty)
+                            .disabled(newEvent.title.isEmpty || (!newEvent.isAllDay && (newEvent.endDateOverride ?? newEvent.endDate) <= newEvent.date)
+                            )
                         }
                     }
             }

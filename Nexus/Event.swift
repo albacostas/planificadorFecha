@@ -1,7 +1,6 @@
 import SwiftUI
 
 struct Event: Identifiable, Hashable, Codable {
-    
     var id = UUID()
     var symbol: String = EventSymbols.randomName()
     var color: RGBAColor = ColorOptions.random().rgbaColor
@@ -14,6 +13,8 @@ struct Event: Identifiable, Hashable, Codable {
     var repeatFrequency: RepeatFrequency = .none
     var repeatEndDate: Date? = nil
     var durationMinutes: Int = 60
+    var endDateOverride: Date? = nil
+    var isAllDay: Bool = false
     var period: Period {
         if date < Date.now{
             return .past

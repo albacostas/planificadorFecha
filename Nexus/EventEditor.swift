@@ -2,18 +2,20 @@ import SwiftUI
 
 struct EventEditor: View {
     @Binding var event: Event
-    @State var isNew = false
     
     @Environment(\.dismiss) private var dismiss
-    @FocusState var focusedTask: EventTask?
-    @State private var isPickingSymbol = false
-
     @EnvironmentObject var eventData: EventData
-    @State private var selectedCalendarID: UUID? = nil
-    @State private var selectedSubtype: EventSubtype = .task
-    @State private var selectedRepeat: RepeatFrequency = .none
-    @State private var repeatEndDate: Date? = nil
-
+    
+    @FocusState var focusedTask: EventTask?
+    
+    @State var isNew = false
+    @State private var isPickingSymbol = false
+    
+    @State private var localEndDate: Date = Date()
+   // @State private var selectedCalendarID: UUID? = nil
+   // @State private var selectedSubtype: EventSubtype = .task
+   // @State private var selectedRepeat: RepeatFrequency = .none
+   // @State private var repeatEndDate: Date? = nil
     
     var body: some View {
         List {
@@ -44,10 +46,40 @@ struct EventEditor: View {
                     .foregroundStyle(.secondary)
             }
             .padding(.vertical, 4)
+            Toggle("All Day", isOn: $event.isAllDay)
+            if !event.isAllDay {
+                DatePicker("End", selection: $localEndDate, displayedComponents: .hourAndMinute)
+                    .datePickerStyle(.compact)
+                    .onChange(of: localEndDate) { newEnd in
+                        event.endDateOverride = newEnd
+                        let delta = Int(newEnd.timeIntervalSince(event.date) / 60)
+                        event.durationMinutes = max(1, delta)
+                    }
+                    .onChange(of: event.date) { newStart in
+                        if let end = event.endDateOverride {
+                            if end <= newStart {
+                                let newEnd = newStart.addingTimeInterval(TimeInterval(60 * event.durationMinutes))
+                                localEndDate = newEnd
+                                event.endDateOverride = newEnd
+                            }
+                                
+                        } else {
+                            let newEnd = newStart.addingTimeInterval(TimeInterval(event.durationMinutes * 60))
+                            localEndDate = newEnd
+                            event.endDateOverride = newEnd
+                        }
+                    }
+                    .onAppear {
+                        localEndDate = event.endDateOverride ?? event.endDate
+                        if event.endDateOverride == nil {
+                            event.endDateOverride = localEndDate
+                        }
+                    }
+            }/*
             Stepper(value: $event.durationMinutes, in: 5...24*60, step: 5) {
                 Text("Lenght: \(formatDuration(minutes: event.durationMinutes))")
-            }
-            .listRowSeparator(.hidden)
+            }*/
+            //.listRowSeparator(.hidden)
             // Calendar selection
             Picker("Calendar", selection: Binding(get: {
                 event.calendarID ?? eventData.calendars.first?.id
