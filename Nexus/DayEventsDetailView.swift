@@ -25,33 +25,41 @@ struct DayEventsDetailView: View {
                                 Text(event.title)
                                     .font(.headline)
                             }
-                            Text(event.date.formatted(date: .omitted, time: .shortened))
-                                .font(.subheadline)
-                                .padding(.bottom, 5)
+                            HStack {
+                                Text(event.date.formatted(date: .omitted, time: .shortened))
+                                    .font(.subheadline)
+                                Spacer()
+                                Text("Ends: \(event.endDate.formatted(date: .omitted, time: .shortened))")
+                                    .font(.subheadline)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .padding(.bottom, 5)
                             
                             // Listado de tareas (tasks) del evento
-                            ForEach(event.tasks.filter { !$0.text.isEmpty }) { task in
-                                HStack {
-                                    Button {
-                                        // Toggle via EventData so we update the source event (handles occurrences)
-                                        eventData.toggleTask(eventID: event.id, taskID: task.id)
-                                    } label: {
-                                        Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
-                                            .foregroundColor(task.isCompleted ? .green : Color(event.color))
-                                            .frame(width: 30, height: 30)
+                            if event.subtype == .task {
+                                ForEach(event.tasks.filter { !$0.text.isEmpty }) { task in
+                                    HStack {
+                                        Button {
+                                            // Toggle via EventData so we update the source event (handles occurrences)
+                                            eventData.toggleTask(eventID: event.id, taskID: task.id)
+                                        } label: {
+                                            Image(systemName: task.isCompleted ? "checkmark.circle.fill" : "circle")
+                                                .foregroundColor(task.isCompleted ? .green : Color(event.color))
+                                                .frame(width: 30, height: 30)
+                                        }
+                                        .buttonStyle(.plain)
+                                        
+                                        Text(task.text)
+                                            .strikethrough(task.isCompleted)
+                                            .foregroundColor(task.isCompleted ? .secondary : .primary)
+                                        
                                     }
-                                    .buttonStyle(.plain)
-                                    
-                                    Text(task.text)
-                                        .strikethrough(task.isCompleted)
-                                        .foregroundColor(task.isCompleted ? .secondary : .primary)
-                                    
+                                    .padding(.leading, 5)
                                 }
-                                .padding(.leading, 5)
-                            }
-                            // Permite al usuario seleccionar el evento para ir al EventEditor
-                            .onTapGesture {
-                                navigationSelection = event
+                                // Permite al usuario seleccionar el evento para ir al EventEditor
+                                .onTapGesture {
+                                    navigationSelection = event
+                                }
                             }
                         }
                         .padding(.vertical, 5)

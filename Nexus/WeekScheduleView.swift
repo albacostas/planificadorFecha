@@ -89,7 +89,17 @@ struct EventScheduleRow: View {
                 Text(event.title)
                     .font(.headline)
                     .foregroundColor(Color(event.color))
-                
+                HStack(spacing: 8) {
+                    Text("⏱ \(event.durationMinutes)m")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                    Text("-")
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                    Text(event.endDate, style: .time)
+                        .font(.caption2)
+                        .foregroundColor(.secondary)
+                }
                 // Muestra el número de tareas pendientes
                 if event.remainingTaskCount > 0 {
                     Text("\(event.remainingTaskCount) tasks remaining")

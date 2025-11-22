@@ -37,7 +37,17 @@ struct EventEditor: View {
                 .labelsHidden()
                 .listRowSeparator(.hidden)
             
-            
+            HStack {
+                Text("Duration")
+                Spacer()
+                Text(formatDuration(minutes: event.durationMinutes))
+                    .foregroundStyle(.secondary)
+            }
+            .padding(.vertical, 4)
+            Stepper(value: $event.durationMinutes, in: 5...24*60, step: 5) {
+                Text("Lenght: \(formatDuration(minutes: event.durationMinutes))")
+            }
+            .listRowSeparator(.hidden)
             // Calendar selection
             Picker("Calendar", selection: Binding(get: {
                 event.calendarID ?? eventData.calendars.first?.id
@@ -77,27 +87,30 @@ struct EventEditor: View {
                 }), displayedComponents: .date)
             }
             
-            Text("Tasks")
-                .fontWeight(.bold)
-            
-            ForEach($event.tasks) { $item in
-                TaskRow(task: $item, focusedTask: $focusedTask)
-            }
-            .onDelete(perform: { indexSet in
-                event.tasks.remove(atOffsets: indexSet)
-            })
-
-            Button {
-                let newTask = EventTask(text: "", isNew: true)
-                event.tasks.append(newTask)
-                focusedTask = newTask
-            } label: {
-                HStack {
-                    Image(systemName: "plus")
-                    Text("Add Task")
+            if event.subtype == .task {
+                Text("Tasks")
+                    .fontWeight(.bold)
+                
+                ForEach($event.tasks) { $item in
+                    TaskRow(task: $item, focusedTask: $focusedTask)
                 }
+                .onDelete(perform: { indexSet in
+                    event.tasks.remove(atOffsets: indexSet)
+                })
+
+                Button {
+                    let newTask = EventTask(text: "", isNew: true)
+                    event.tasks.append(newTask)
+                    focusedTask = newTask
+                } label: {
+                    HStack {
+                        Image(systemName: "plus")
+                        Text("Add Task")
+                    }
+                }
+                .buttonStyle(.borderless)
             }
-            .buttonStyle(.borderless)
+            
         }
 
         #if os(iOS)
@@ -106,6 +119,17 @@ struct EventEditor: View {
         .sheet(isPresented: $isPickingSymbol) {
             SymbolPicker(event: $event)
         }
+    }
+    
+    private func formatDuration(minutes: Int) -> String {
+        if minutes % 60 == 0 {
+            return "\(minutes / 60) h"
+        } else if minutes >= 60 {
+            let h = minutes / 60
+            let m = minutes % 60
+            return "\(h)h \(m)m"
+        }
+        return "\(minutes) min"
     }
 }
 
