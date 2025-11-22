@@ -129,6 +129,23 @@ class EventData: ObservableObject {
         }
     }
     
+    func updateEventsColor(for calendarID: UUID, to newColor: RGBAColor) {
+        if let idx = calendars.firstIndex(where: { $0.id == calendarID}) {
+            calendars[idx].color = newColor
+        }
+        
+        var didChange = false
+        for i in allEvents.indices {
+            if let calID = allEvents[i].calendarID, calID == calendarID {
+                allEvents[i].color = newColor
+                didChange = true
+            }
+        }
+        if didChange || moc != nil {
+            save()
+        }
+    }
+    
     func getBindingToCalendar(_ calendar: Subcalendar) -> Binding<Subcalendar>? {
         Binding<Subcalendar>(
             get: {
@@ -141,7 +158,6 @@ class EventData: ObservableObject {
             }
         )
     }
-    /*#-code-walkthrough(4.events)*/
     
     func add(_ event: Event) {
         allEvents.append(event)
@@ -176,7 +192,7 @@ class EventData: ObservableObject {
             }
         )
     }
-    /*#-code-walkthrough(4.methods)*/
+
     
     func getBindingToEvent(_ event: Event) -> Binding<Event>? {
         Binding<Event>(
@@ -278,12 +294,12 @@ class EventData: ObservableObject {
         occ.date = date
         return occ
     }
-    /*#-code-walkthrough(7.fileURL)*/
+   
     private static func getEventsFileURL() throws -> URL {
         FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
             .appendingPathComponent("events.data")
     }
-    /*#-code-walkthrough(7.fileURL)*/
+   
     //#-learning-task(loadFunc)
     func load() {
         // Backwards-compatible loader; prefer Core Data if available

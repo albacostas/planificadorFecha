@@ -3,6 +3,8 @@ import SwiftUI
 struct SubcalendarEditor: View {
     @Binding var calendar: Subcalendar
     @Environment(\.dismiss) private var dismiss
+    @EnvironmentObject var eventData: EventData
+    
     
     var body: some View {
         Form {
@@ -17,6 +19,7 @@ struct SubcalendarEditor: View {
                     Color(calendar.color)
                 }, set: { newColor in
                     calendar.color = newColor.rgbaColor
+                    eventData.updateEventsColor(for: calendar.id, to: newColor.rgbaColor)
                 }))
                 
                 Toggle("Visible", isOn: Binding(get: {

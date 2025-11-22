@@ -43,6 +43,13 @@ struct WeekScheduleFlowView: View {
                                     }
                                 }
                                 .navigationBarTitleDisplayMode(.inline)
+                                .navigationDestination(for: Event.self) { event in
+                                    if let eventBinding = eventData.getBindingToEvent(event) {
+                                        EventEditor(event: eventBinding)
+                                            .environmentObject(eventData)
+                                        
+                                    }
+                                }
                         }
                     }
                 } else {
@@ -65,6 +72,13 @@ struct WeekScheduleFlowView: View {
                             Divider()
                             WeekScheduleView(eventData: eventData, selectedDateFromCalendar: Binding(get: { eventData.uiSelectedDate }, set: { eventData.uiSelectedDate = $0 }), calendarTitle: Binding(get: { eventData.uiCalendarTitle }, set: { eventData.uiCalendarTitle = $0 }))
                                 .navigationBarTitleDisplayMode(.inline)
+                                .navigationDestination(for: Event.self) { event in
+                                    if let eventBinding = eventData.getBindingToEvent(event) {
+                                        EventEditor(event: eventBinding)
+                                            .environmentObject(eventData)
+                                        
+                                    }
+                                }
                         }
                     }
                 }

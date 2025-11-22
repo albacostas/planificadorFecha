@@ -43,6 +43,9 @@ struct EventEditor: View {
                 event.calendarID ?? eventData.calendars.first?.id
             }, set: { newID in
                 event.calendarID = newID
+                if let id = newID, let cal = eventData.calendars.first(where: { $0.id == id }) {
+                    event.color = cal.color
+                }
             })) {
                 ForEach(eventData.calendars) { cal in
                     HStack {
