@@ -90,12 +90,12 @@ struct EventScheduleRow: View {
                     .font(.headline)
                     .foregroundColor(Color(event.color))
                 HStack(spacing: 8) {
-                    Text("⏱ \(event.durationMinutes)m")
+                    /*Text("⏱ \(event.durationMinutes)m")
                         .font(.caption2)
                         .foregroundColor(.secondary)
                     Text("-")
                         .font(.caption2)
-                        .foregroundColor(.secondary)
+                        .foregroundColor(.secondary)*/
                     Text(event.endDate, style: .time)
                         .font(.caption2)
                         .foregroundColor(.secondary)
@@ -128,13 +128,18 @@ struct HourMarker: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading) {
+        VStack(alignment: .leading, spacing: 0) {
             Text(hourString)
                 .font(.subheadline)
                 .fontWeight(.semibold)
                 .foregroundColor(.gray)
+                .padding(.top, 8)
             
-            Divider() // Línea divisoria para el horario
+            //Divider() // Línea divisoria para el horario
+            Rectangle()
+                .fill(Color.secondary.opacity(0.25))
+                .frame(height: 0)
+                .frame(maxWidth: .infinity)
         }
     }
 }
@@ -146,48 +151,82 @@ struct DayScheduleSection: View {
     let events: [Event]
     
     // Rango de horas a mostrar en el horario (de 8:00 a 22:00)
-    private let scheduleHours = Array(8...22)
+    //private let scheduleHours = Array(8...22)
+    private let firstHour = 6
+    private let lastHour = 23
+    private let hourHeight: CGFloat = 60
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 5) {
+        VStack(alignment: .leading, spacing: 8) {
             // Cabecera del día (ej: Monday, November 17)
             Text(day, style: .date)
                 .font(.title3)
                 .fontWeight(.bold)
             
-            if events.isEmpty {
-                Text("No events scheduled.")
-                    .foregroundColor(.secondary)
-                    .padding(.leading)
-            } else {
-                
-                // Iteramos por las horas fijas del horario
-                VStack(alignment: .leading, spacing: 10) {
-                    ForEach(scheduleHours, id: \.self) { hour in
-                        
-                        // 1. Mostrar el marcador de hora
-                        HourMarker(hour: hour)
-                        
-                        // 2. Filtrar eventos que empiezan en esta hora
-                        let eventsInHour = events.filter { Calendar.current.component(.hour, from: $0.date) == hour }
-                        
-                        // 3. Mostrar los eventos si existen
-                        if !eventsInHour.isEmpty {
-                            VStack(alignment: .leading, spacing: 5) {
-                                ForEach(eventsInHour) { event in
-                                    NavigationLink(value: event) {
-                                        EventScheduleRow(event: event)
-                                    }
-                                    .buttonStyle(.plain)
-                                }
-                            }
-                            // Pequeña sangría para diferenciar los eventos del marcador de hora
-                            .padding(.leading, 15)
+            ZStack(alignment: .topLeading) {
+                HStack(alignment: .top, spacing: 0) {
+                    VStack(spacing: 0) {
+                        ForEach(firstHour...lastHour, id: \.self) { hour in
+                            HourMarker(hour: hour)
+                                .frame(height: hourHeight)
                         }
                     }
+                    .frame(width: 70)
+                    
+                    GeometryReader { geo in
+                        let totalHours = CGFloat(lastHour - firstHour + 1)
+                        let totalHeight = totalHours * hourHeight
+                        
+                        ZStack(alignment: .topLeading) {
+                            VStack(spacing: 0) {
+                                ForEach(0..<Int(totalHours), id: \.self){ _ in
+                                    ZStack(alignment: .top) {
+                                        Rectangle()
+                                            .fill(Color.clear)
+                                            .frame(height: hourHeight)
+
+                                            Rectangle()
+                                                .fill(Color.secondary.opacity(0.25))
+                                                .frame(height: 0.5)
+                                                .frame(maxWidth: .infinity, alignment: .top)
+                                    }
+                                }
+                            }
+                            .frame(height: totalHeight)
+                            
+                            ForEach(events) { event in
+                                let startComponents = Calendar.current.dateComponents([.hour, .minute], from: event.date)
+                                let startHour = (startComponents.hour ?? 0)
+                                let startMinute = (startComponents.minute ?? 0)
+                                let offsetHours = CGFloat(startHour - firstHour) +  CGFloat(startMinute)/60.0
+                                let y = offsetHours * hourHeight
+                                let height = max(30,  CGFloat(event.durationMinutes) / 60.0 * hourHeight)
+                                
+                                NavigationLink(value: event) {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(event.title)
+                                            .font(.subheadline)
+                                            .fontWeight(.semibold)
+                                        Text("\(event.date, style: .time) - \(event.endDate, style: .time)")
+                                            .font(.caption2)
+                                            .foregroundColor(.secondary)
+                                    }
+                                    .padding(8)
+                                    .background(RoundedRectangle(cornerRadius: 8).fill(Color(event.color).opacity(0.3)))
+                                    .overlay(RoundedRectangle(cornerRadius: 8).stroke(Color(event.color), lineWidth: 1))
+                                    
+                                }
+                                .buttonStyle(.plain)
+                                .frame(width: geo.size.width - 4, height: height, alignment: .topLeading)
+                                .offset(x: 8, y: y)
+                            }
+                        }
+                        .frame(height: totalHeight)
+                    }
                 }
-                .padding(.top, 5)
             }
+            .padding(.vertical, 4)
+             
         }
     }
 }

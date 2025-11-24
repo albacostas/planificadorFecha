@@ -12,10 +12,6 @@ struct EventEditor: View {
     @State private var isPickingSymbol = false
     
     @State private var localEndDate: Date = Date()
-   // @State private var selectedCalendarID: UUID? = nil
-   // @State private var selectedSubtype: EventSubtype = .task
-   // @State private var selectedRepeat: RepeatFrequency = .none
-   // @State private var repeatEndDate: Date? = nil
     
     var body: some View {
         List {
