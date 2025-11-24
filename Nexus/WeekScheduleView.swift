@@ -42,6 +42,7 @@ struct WeekScheduleView: View { // <-- ESTRUCTURA PRINCIPAL AÑADIDA
                 }
                 .padding(.horizontal)
                 
+                AllDayEventsSection(eventData: eventData, weekDays: weekDays)
                 // Weekly Schedule Body
                 VStack(alignment: .leading, spacing: 15) {
                     ForEach(weekDays, id: \.self) { day in
@@ -193,6 +194,7 @@ struct DayScheduleSection: View {
                                 }
                             }
                             .frame(height: totalHeight)
+                            .allowsHitTesting(false)
                             
                             ForEach(events) { event in
                                 let startComponents = Calendar.current.dateComponents([.hour, .minute], from: event.date)
@@ -231,3 +233,57 @@ struct DayScheduleSection: View {
     }
 }
 
+struct AllDayEventsSection: View {
+    @ObservedObject var eventData: EventData
+    let weekDays: [Date]
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 6) {
+            Text("All-day")
+                .font(.subheadline)
+                .fontWeight(.semibold)
+                .padding(.horizontal)
+            
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(alignment: .top, spacing: 12) {
+                    ForEach(weekDays, id: \.self) { day in
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text(shortDayLabel(for: day))
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            
+                            let dayEvents = eventData.eventsOn(date: day).filter { $0.isAllDay }
+                            if dayEvents.isEmpty {
+                                Rectangle()
+                                    .fill(Color.clear)
+                                    .frame(height: 10)
+                            } else {
+                                ForEach(dayEvents) { event in
+                                    NavigationLink(value: event) {
+                                        Text(event.title)
+                                            .font(.caption2)
+                                            .lineLimit(1)
+                                            .padding(.vertical, 6)
+                                            .padding(.horizontal, 8)
+                                            .background(RoundedRectangle(cornerRadius: 8).fill(Color(event.color).opacity(0.3)))
+                                    }
+                                    .buttonStyle(.plain)
+                                    .contentShape(Rectangle())
+                                }
+                            }
+                        }
+                        .frame(minWidth: 110, alignment: .leading)
+                    }
+                }
+                .padding(.horizontal)
+            }
+        }
+        .padding(.vertical, 6)
+    }
+    
+    private func shortDayLabel(for date: Date) -> String {
+        let fmt = DateFormatter()
+        fmt.dateFormat = "EEE d"
+        return fmt.string(from: date)
+    }
+}
